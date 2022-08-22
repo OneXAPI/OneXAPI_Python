@@ -1,0 +1,5 @@
+OneXAPI_User.py
+libOneXAPI.so
+
+__pycache__/
+.vscode/
