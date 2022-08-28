@@ -13,6 +13,32 @@ class client:
         lib.upbitSpot_delete.argtypes = [ctypes.c_void_p]
         lib.upbitSpot_delete.restype = None
 
+        # General
+        lib.upbitSpot_getConfig.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+        lib.upbitSpot_getConfig.restype = ctypes.c_void_p
+
+        lib.upbitSpot_setConfig.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+        lib.upbitSpot_setConfig.restype = ctypes.c_void_p
+
+        lib.upbitSpot_getEndpointCandidates.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+        lib.upbitSpot_getEndpointCandidates.restype = ctypes.c_void_p
+
+        lib.upbitSpot_has.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+        lib.upbitSpot_has.restype = ctypes.c_void_p
+
+        lib.upbitSpot_getWithdrawRoundingRule.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+        lib.upbitSpot_getWithdrawRoundingRule.restype = ctypes.c_void_p
+
+        lib.upbitSpot_setWithdrawRoundingRule.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+        lib.upbitSpot_setWithdrawRoundingRule.restype = ctypes.c_void_p
+
+        lib.upbitSpot_getOrderRoundingRule.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+        lib.upbitSpot_getOrderRoundingRule.restype = ctypes.c_void_p
+
+        lib.upbitSpot_setOrderRoundingRule.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+        lib.upbitSpot_setOrderRoundingRule.restype = ctypes.c_void_p
+
+        # Spot
         lib.upbitSpot_withdraw.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
         lib.upbitSpot_withdraw.restype = ctypes.c_void_p
 
@@ -108,6 +134,56 @@ class client:
     def __del__(self):
         lib.upbitSpot_delete(self.client)
 
+    #General
+    def getConfig(self, request = "{}"):
+        response = lib.upbitSpot_getConfig(self.client, bytes(request, "utf-8"))
+        ret = str(ctypes.cast(response, ctypes.c_char_p).value, "utf-8")
+        lib.char_free(response)
+        return ret
+
+    def setConfig(self, request = "{}"):
+        response = lib.upbitSpot_setConfig(self.client, bytes(request, "utf-8"))
+        ret = str(ctypes.cast(response, ctypes.c_char_p).value, "utf-8")
+        lib.char_free(response)
+        return ret
+
+    def getEndpointCandidates(self, request = "{}"):
+        response = lib.upbitSpot_getEndpointCandidates(self.client, bytes(request, "utf-8"))
+        ret = str(ctypes.cast(response, ctypes.c_char_p).value, "utf-8")
+        lib.char_free(response)
+        return ret
+
+    def has(self, request = "{}"):
+        response = lib.upbitSpot_has(self.client, bytes(request, "utf-8"))
+        ret = str(ctypes.cast(response, ctypes.c_char_p).value, "utf-8")
+        lib.char_free(response)
+        return ret
+
+    def getWithdrawRoundingRule(self, request = "{}"):
+        response = lib.upbitSpot_getWithdrawRoundingRule(self.client, bytes(request, "utf-8"))
+        ret = str(ctypes.cast(response, ctypes.c_char_p).value, "utf-8")
+        lib.char_free(response)
+        return ret
+
+    def setWithdrawRoundingRule(self, request = "{}"):
+        response = lib.upbitSpot_setWithdrawRoundingRule(self.client, bytes(request, "utf-8"))
+        ret = str(ctypes.cast(response, ctypes.c_char_p).value, "utf-8")
+        lib.char_free(response)
+        return ret
+
+    def getOrderRoundingRule(self, request = "{}"):
+        response = lib.upbitSpot_getOrderRoundingRule(self.client, bytes(request, "utf-8"))
+        ret = str(ctypes.cast(response, ctypes.c_char_p).value, "utf-8")
+        lib.char_free(response)
+        return ret
+
+    def setOrderRoundingRule(self, request = "{}"):
+        response = lib.upbitSpot_setOrderRoundingRule(self.client, bytes(request, "utf-8"))
+        ret = str(ctypes.cast(response, ctypes.c_char_p).value, "utf-8")
+        lib.char_free(response)
+        return ret
+
+    #Spot
     def withdraw(self, request = "{}"):
         response = lib.upbitSpot_withdraw(self.client, bytes(request, "utf-8"))
         ret = str(ctypes.cast(response, ctypes.c_char_p).value, "utf-8")
@@ -292,7 +368,7 @@ class client:
 
 if __name__ == "__main__":
     lib = ctypes.cdll.LoadLibrary('../libOneXAPI.so')
-    upbitClient = client()
+    upbitClient = client('{"accessKey":"user accessKey","secretKey":"user secretKey"}')
     print(upbitClient.withdraw())
     print(upbitClient.fetchAllCurrencies())
     print(upbitClient.fetchBalance())

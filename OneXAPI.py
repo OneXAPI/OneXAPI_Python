@@ -34,5 +34,5 @@ def setLoggerConfig(request = "{}"):
     return ret
 
 class Upbit():
-    def Spot():
-        return exchanges.upbitSpot.client()
+    def Spot(request = "{}"):
+        return exchanges.upbitSpot.client(request)
