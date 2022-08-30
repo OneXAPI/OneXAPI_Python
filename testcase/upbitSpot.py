@@ -1,9 +1,12 @@
 import unittest
-import sys, os
+import sys, os, time
 import json
 
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import OneXAPI
+
+UPBIT_ACCESS_KEY = ""
+UPBIT_SECRET_KEY = ""
 
 hasMap = """
 {
@@ -293,33 +296,216 @@ class Testing(unittest.TestCase):
         res = client.getWithdrawRoundingRule('qwerion')
         self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"roundingRule":"round"}}')
 
-    def test_fetchAllCurrencies(self):
+    def test_setWithdrawRoundingRule_1(self):
         client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
 
-    def test_fetchBalance(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        res = json.loads(client.setWithdrawRoundingRule('{"roundingRule":"wrongData"}'))
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
-    def test_fetchWalletStatus(self):
+    def test_setWithdrawRoundingRule_1(self):
         client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
 
-    def test_fetchWithdrawHistory(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        for value in ['ceil', 'floor', 'round']:
+            res = json.loads(client.setWithdrawRoundingRule('{"roundingRule":"' + value +'"}'))
+            self.assertEqual(res['success'], True)
+            self.assertEqual(res['data']['roundingRule'], value)
+            self.assertEqual(res['data']['requestedApiCount'], 0)
 
-    def test_fetchDepositHistory(self):
+    def test_withdraw_1(self):
         client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        
+        testdict = ['{"currency":"bTc","address":"0x1345"}','{"currency":"bTc","amount":1.535478}','{"address":"fwlnvlwnlkfsd","amount":13384.13541345}']
+        
+        for payload in testdict:
+            res = json.loads(client.withdraw(payload))
+            self.assertEqual(res['success'], False)
+            self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
-    def test_fetchDepositAddress(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+    def test_fetchAllCurrencies_1(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
 
-    def test_isDepositCompleted(self):
+        res = json.loads(client.fetchAllCurrencies())
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertNotEqual(len(res['data']['currencies']), 0)
+
+        for currency, chainsDict in res['data']['currencies'].items():
+            self.assertTrue(type(currency), type(""))
+            self.assertTrue(json.dumps(chainsDict), '{"chains": []}')
+
+    def test_fetchAllCurrencies_2(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        res = json.loads(client.fetchAllCurrencies(""))
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertNotEqual(len(res['data']['currencies']), 0)
+
+        for currency, chainsDict in res['data']['currencies'].items():
+            self.assertTrue(type(currency), type(""))
+            self.assertTrue(json.dumps(chainsDict), '{"chains": []}')
+
+    def test_fetchBalance_1(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        
+        res = json.loads(client.fetchBalance('{"currencies":[]}'))
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['data']['fetchType'], "rest")
+        
+        for currency, balance in res['data']['balance'].items():
+            self.assertTrue(type(currency), type(""))
+            self.assertTrue(type(balance["free"]), type(""))
+            self.assertTrue(type(balance["locked"]), type(""))
+
+    def test_fetchBalance_2(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        
+        res = json.loads(client.fetchBalance('{"currencies":["bTc","xRP","Eth"], "zeroBalance": true}'))
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 2)
+        self.assertEqual(res['data']['fetchType'], "rest")
+        
+        for currency, balance in res['data']['balance'].items():
+            self.assertTrue(type(currency), type(""))
+            self.assertTrue(type(balance["free"]), type(""))
+            self.assertTrue(type(balance["locked"]), type(""))
+
+    def test_fetchWalletStatus_1(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        
+        res = json.loads(client.fetchWalletStatus('{}'))
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertNotEqual(len(res['data']['currencies']), 0)
+
+        for currency, wallet in res['data']['currencies'].items():
+            self.assertTrue(type(currency), type(""))
+            self.assertTrue(type(wallet["chains"]), type([]))
+            self.assertTrue(len(wallet["chains"]), 1)
+            self.assertEqual(wallet["chains"][0]["chain"], "")
+            self.assertTrue(type(wallet["chains"][0]["withdrawEnable"]), type(True))
+            self.assertTrue(type(wallet["chains"][0]["depositEnable"]), type(True))
+
+    def test_fetchWalletStatus_2(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        
+        res = json.loads(client.fetchWalletStatus('{"currency":"bTc"}'))
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertNotEqual(len(res['data']['currencies']), 0)
+
+        for currency, wallet in res['data']['currencies'].items():
+            self.assertTrue(type(currency), type(""))
+            self.assertTrue(type(wallet["chains"]), type([]))
+            self.assertTrue(len(wallet["chains"]), 1)
+            self.assertEqual(wallet["chains"][0]["chain"], "")
+            self.assertTrue(type(wallet["chains"][0]["withdrawEnable"]), type(True))
+            self.assertTrue(type(wallet["chains"][0]["depositEnable"]), type(True))
+
+    def test_fetchWithdrawHistory_1(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        
+        res = json.loads(client.fetchWithdrawHistory('{}'))
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertNotEqual(len(res['data']['withdrawals']), 0)
+
+        for withdrawHistory in res['data']['withdrawals']:
+            self.assertTrue(type(withdrawHistory["currency"]), type(""))
+            self.assertTrue(type(withdrawHistory["amount"]), type(""))
+            self.assertTrue(type(withdrawHistory["fee"]), type(""))
+            self.assertTrue(type(withdrawHistory["orderId"]), type(""))
+            self.assertTrue(type(withdrawHistory["txid"]), type(""))
+            self.assertTrue(type(withdrawHistory["status"]), type(""))
+            self.assertTrue(type(withdrawHistory["created"]), type(""))
+
+    def test_fetchDepositHistory_1(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        
+        res = json.loads(client.fetchDepositHistory('{}'))
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertNotEqual(len(res['data']['deposits']), 0)
+
+        for deposit in res['data']['deposits']:
+            self.assertTrue(type(deposit["currency"]), type(""))
+            self.assertTrue(type(deposit["amount"]), type(""))
+            self.assertTrue(type(deposit["fee"]), type(""))
+            self.assertTrue(type(deposit["orderId"]), type(""))
+            self.assertTrue(type(deposit["txid"]), type(""))
+            self.assertTrue(type(deposit["status"]), type(""))
+            self.assertTrue(type(deposit["created"]), type(""))
+
+    def test_fetchDepositAddress_1(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        
+        res = json.loads(client.fetchDepositAddress('{}'))
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertNotEqual(len(res['data']['addresses']), 0)
+
+        for currency, depositDict in res['data']['addresses'].items():
+            self.assertTrue(type(currency), type(""))
+            self.assertTrue(type(depositDict), type([]))
+            self.assertEqual(len(depositDict), 1)
+            self.assertEqual(depositDict[0]["chain"], "")
+            self.assertTrue(type(depositDict[0]["address"]), type(""))
+            self.assertTrue(type(depositDict[0]["tag"]), type(""))
+    
+    def test_fetchDepositAddress_2(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        
+        res = json.loads(client.fetchDepositAddress('{"currency":"Btc"}'))
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertNotEqual(len(res['data']['addresses']), 0)
+
+        for currency, depositDict in res['data']['addresses'].items():
+            self.assertTrue(type(currency), type(""))
+            self.assertTrue(type(depositDict), type([]))
+            self.assertEqual(len(depositDict), 1)
+            self.assertEqual(depositDict[0]["chain"], "")
+            self.assertTrue(type(depositDict[0]["address"]), type(""))
+            self.assertTrue(type(depositDict[0]["tag"]), type(""))
+
+    def test_isDepositCompleted_1(self):
         client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+
+        res = json.loads(client.isDepositCompleted('{}'))
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
+
+    def test_getOrderRoundingRule_1(self):
+        client = OneXAPI.Upbit.Spot()
+        res = client.getOrderRoundingRule()
+
+        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
+
+    def test_getOrderRoundingRule_2(self):
+        client = OneXAPI.Upbit.Spot()
+        res = client.getOrderRoundingRule("")
+
+        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
+
+    def test_setOrderRoundingRule_1(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = json.loads(client.setOrderRoundingRule('{"limitBuyBaseAmount":"wrongData"}'))
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
+
 
     def test_orderLimitBuy(self):
         client = OneXAPI.Upbit.Spot()

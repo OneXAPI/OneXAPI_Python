@@ -3,3 +3,4 @@ libOneXAPI.so
 
 __pycache__/
 .vscode/
+*.log
