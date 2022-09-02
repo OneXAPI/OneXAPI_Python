@@ -1,6 +1,11 @@
 OneXAPI_User.py
+main.py
 libOneXAPI.so
+OneXAPI_Logs
 
 __pycache__/
 .vscode/
 *.log
+build
+dist
+*.egg-info
