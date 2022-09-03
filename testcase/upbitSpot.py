@@ -80,20 +80,16 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['data']['secretKey'], '')
 
     def test_UpbitSpot_Object_6(self):
-        client = OneXAPI.Upbit.Spot('{"secretKey":"Test Access Key"}')
+        client = OneXAPI.Upbit.Spot('{"secretKey":"Test Secret Key"}')
         res = json.loads(client.getConfig())
-        self.assertEqual(res['data']['secretKey'], 'Test Access Key')
+        self.assertEqual(res['data']['secretKey'], 'Test Secret Key')
         self.assertEqual(res['data']['accessKey'], '')    
 
     def test_UpbitSpot_Object_7(self):
-        client = OneXAPI.Upbit.Spot('{"accessKey":"Test Access Key", "secretKey":"Test Access Key"}')
+        client = OneXAPI.Upbit.Spot('{"accessKey":"Test Access Key", "secretKey":"Test Secret Key"}')
         res = json.loads(client.getConfig())
         self.assertEqual(res['data']['accessKey'], 'Test Access Key')
-
-    def test_UpbitSpot_Object_7_1(self):
-        client = OneXAPI.Upbit.Spot('{"accessKey":"Test Access Key", "secretKey":"Test Access Key"}')
-        res = json.loads(client.getConfig())
-        self.assertEqual(res['data']['secretKey'], 'Test Access Key')
+        self.assertEqual(res['data']['secretKey'], 'Test Secret Key')
 
     def test_getConfig_1(self):
         client = OneXAPI.Upbit.Spot()
@@ -127,11 +123,6 @@ class Testing(unittest.TestCase):
 
     def test_setConfig_3(self):
         client = OneXAPI.Upbit.Spot()
-        res = client.setConfig()
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0}}')
-
-    def test_setConfig_4(self):
-        client = OneXAPI.Upbit.Spot()
         res = json.loads(client.setConfig('{"accessKey":1.1354}'))
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
@@ -164,7 +155,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
-    def test_setConfig_5(self):
+    def test_setConfig_4(self):
         client = OneXAPI.Upbit.Spot()
         res = json.loads(client.setConfig('{"restEndpoint":"wrongEndpoint"}'))
         self.assertEqual(res['success'], False)
@@ -178,7 +169,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
-    def test_setConfig_6(self):
+    def test_setConfig_5(self):
         client = OneXAPI.Upbit.Spot()
         testList = [
             ('accessKey','"test access key"'),
@@ -370,6 +361,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 2)
         self.assertEqual(res['data']['fetchType'], "rest")
+        self.assertEqual(len(res['data']['balance']), 3)
         
         for currency, balance in res['data']['balance'].items():
             self.assertTrue(type(currency), type(""))
@@ -400,7 +392,7 @@ class Testing(unittest.TestCase):
         res = json.loads(client.fetchWalletStatus('{"currency":"bTc"}'))
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
-        self.assertNotEqual(len(res['data']['currencies']), 0)
+        self.assertEqual(len(res['data']['currencies']), 1)
 
         for currency, wallet in res['data']['currencies'].items():
             self.assertTrue(type(currency), type(""))
@@ -470,7 +462,7 @@ class Testing(unittest.TestCase):
         res = json.loads(client.fetchDepositAddress('{"currency":"Btc"}'))
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
-        self.assertNotEqual(len(res['data']['addresses']), 0)
+        self.assertEqual(len(res['data']['addresses']), 1)
 
         for currency, depositDict in res['data']['addresses'].items():
             self.assertTrue(type(currency), type(""))
@@ -506,34 +498,61 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
-
-    def test_orderLimitBuy(self):
+    def test_orderLimitBuy_1(self):
         client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        
+        res = json.loads(client.orderLimitBuy('{}'))
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
-    def test_orderLimitSell(self):
+    def test_orderLimitSell_1(self):
         client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        
+        res = json.loads(client.orderLimitSell('{}'))
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
-    def test_orderMarketBuy(self):
+    def test_orderMarketBuy_1(self):
         client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        
+        res = json.loads(client.orderMarketBuy('{}'))
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
-    def test_orderMarketSell(self):
+    def test_orderMarketSell_1(self):
         client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        
+        res = json.loads(client.orderMarketSell('{}'))
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
-    def test_orderCancel(self):
+    def test_orderCancel_1(self):
         client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        
+        res = json.loads(client.orderCancel('{}'))
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
-    def test_fetchTradingFee(self):
+    def test_fetchTradingFee_1(self):
         client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        
+        res = json.loads(client.fetchTradingFee('{"baseCurrency":"bTC"}'))
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
-    def test_fetchOrderInfo(self):
+    def test_fetchTradingFee_2(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        
+        res = client.fetchTradingFee('{"baseCurrency":"bTC","quoteCurrency":"KRw"}')
+        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":1,"fees":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC","makerFee":"0.0005","takerFee":"0.0005"}]}}')
+
+    def test_fetchOrderInfo_1(self):
         client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        
+        res = json.loads(client.fetchOrderInfo(''))
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_fetchOpenOrders(self):
         client = OneXAPI.Upbit.Spot()

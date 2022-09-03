@@ -38,7 +38,7 @@ class client:
         lib.upbitSpot_setOrderRoundingRule.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
         lib.upbitSpot_setOrderRoundingRule.restype = ctypes.c_void_p
 
-        # Spot
+        # Wallet
         lib.upbitSpot_withdraw.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
         lib.upbitSpot_withdraw.restype = ctypes.c_void_p
 
@@ -63,6 +63,16 @@ class client:
         lib.upbitSpot_isDepositCompleted.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
         lib.upbitSpot_isDepositCompleted.restype = ctypes.c_void_p
 
+        lib.upbitSpot_subscribeBalance.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+        lib.upbitSpot_subscribeBalance.restype = ctypes.c_void_p
+
+        lib.upbitSpot_unsubscribeBalance.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+        lib.upbitSpot_unsubscribeBalance.restype = ctypes.c_void_p
+
+        lib.upbitSpot_isSubscribingBalance.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+        lib.upbitSpot_isSubscribingBalance.restype = ctypes.c_void_p
+
+        # Trade
         lib.upbitSpot_orderLimitBuy.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
         lib.upbitSpot_orderLimitBuy.restype = ctypes.c_void_p
 
@@ -87,6 +97,7 @@ class client:
         lib.upbitSpot_fetchOpenOrders.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
         lib.upbitSpot_fetchOpenOrders.restype = ctypes.c_void_p
 
+        # Markets
         lib.upbitSpot_getCandleIntervalCandidates.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
         lib.upbitSpot_getCandleIntervalCandidates.restype = ctypes.c_void_p
 
@@ -101,15 +112,6 @@ class client:
 
         lib.upbitSpot_fetchCandleHistory.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
         lib.upbitSpot_fetchCandleHistory.restype = ctypes.c_void_p
-
-        lib.upbitSpot_subscribeBalance.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
-        lib.upbitSpot_subscribeBalance.restype = ctypes.c_void_p
-
-        lib.upbitSpot_unsubscribeBalance.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
-        lib.upbitSpot_unsubscribeBalance.restype = ctypes.c_void_p
-
-        lib.upbitSpot_isSubscribingBalance.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
-        lib.upbitSpot_isSubscribingBalance.restype = ctypes.c_void_p
 
         lib.upbitSpot_getSubscribingTickers.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
         lib.upbitSpot_getSubscribingTickers.restype = ctypes.c_void_p
@@ -377,6 +379,9 @@ if __name__ == "__main__":
     print(upbitClient.fetchDepositHistory())
     print(upbitClient.fetchDepositAddress())
     print(upbitClient.isDepositCompleted())
+    print(upbitClient.subscribeBalance())
+    print(upbitClient.unsubscribeBalance())
+    print(upbitClient.isSubscribingBalance())
     print(upbitClient.orderLimitBuy())
     print(upbitClient.orderLimitSell())
     print(upbitClient.orderMarketBuy())
@@ -390,9 +395,6 @@ if __name__ == "__main__":
     print(upbitClient.fetchTicker())
     print(upbitClient.fetchOrderbook())
     print(upbitClient.fetchCandleHistory())
-    print(upbitClient.subscribeBalance())
-    print(upbitClient.unsubscribeBalance())
-    print(upbitClient.isSubscribingBalance())
     print(upbitClient.getSubscribingTickers())
     print(upbitClient.getSubscribingOrderbooks())
     print(upbitClient.subscribeTicker())
