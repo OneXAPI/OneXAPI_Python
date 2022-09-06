@@ -1,8 +1,9 @@
 import unittest
 import sys, os, time
 import json
+import util
 
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
 import OneXAPI
 
 UPBIT_ACCESS_KEY = ""
@@ -56,116 +57,118 @@ class Testing(unittest.TestCase):
     def test_UpbitSpot_Object_1(self):
         for i in range(0,5):
             client = OneXAPI.Upbit.Spot()
-        self.assertEqual("", "")
 
     def test_UpbitSpot_Object_2(self):
         for i in range(0,5):
             client = OneXAPI.Upbit.Spot('')
-        self.assertEqual("", "")
 
     def test_UpbitSpot_Object_3(self):
         for i in range(0,5):
             client = OneXAPI.Upbit.Spot("{}")
-        self.assertEqual("", "")
 
     def test_UpbitSpot_Object_4(self):
         for i in range(0,5):
             client = OneXAPI.Upbit.Spot('fnq543wb')
-        self.assertEqual("", "")
 
     def test_UpbitSpot_Object_5(self):
         client = OneXAPI.Upbit.Spot('{"accessKey":"Test Access Key"}')
-        res = json.loads(client.getConfig())
+        res = client.getConfig()
         self.assertEqual(res['data']['accessKey'], 'Test Access Key')
         self.assertEqual(res['data']['secretKey'], '')
 
     def test_UpbitSpot_Object_6(self):
         client = OneXAPI.Upbit.Spot('{"secretKey":"Test Secret Key"}')
-        res = json.loads(client.getConfig())
+        res = client.getConfig()
         self.assertEqual(res['data']['secretKey'], 'Test Secret Key')
         self.assertEqual(res['data']['accessKey'], '')    
 
     def test_UpbitSpot_Object_7(self):
         client = OneXAPI.Upbit.Spot('{"accessKey":"Test Access Key", "secretKey":"Test Secret Key"}')
-        res = json.loads(client.getConfig())
+        res = client.getConfig()
         self.assertEqual(res['data']['accessKey'], 'Test Access Key')
         self.assertEqual(res['data']['secretKey'], 'Test Secret Key')
 
     def test_getConfig_1(self):
         client = OneXAPI.Upbit.Spot()
         res = client.getConfig()
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"exchange":"Upbit","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.upbit.com/v1","publicWebsocketEndpoint":"wss://api.upbit.com/websocket/v1","privateWebsocketEndpoint":"","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"exchange":"Upbit","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.upbit.com/v1","publicWebsocketEndpoint":"wss://api.upbit.com/websocket/v1","privateWebsocketEndpoint":"","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
+        self.assertEqual(res, answer)
     
     def test_getConfig_2(self):
         client = OneXAPI.Upbit.Spot()
         res = client.getConfig("")
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"exchange":"Upbit","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.upbit.com/v1","publicWebsocketEndpoint":"wss://api.upbit.com/websocket/v1","privateWebsocketEndpoint":"","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"exchange":"Upbit","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.upbit.com/v1","publicWebsocketEndpoint":"wss://api.upbit.com/websocket/v1","privateWebsocketEndpoint":"","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
+        self.assertEqual(res, answer)
 
     def test_getConfig_3(self):
         client = OneXAPI.Upbit.Spot()
         res = client.getConfig("{}")
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"exchange":"Upbit","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.upbit.com/v1","publicWebsocketEndpoint":"wss://api.upbit.com/websocket/v1","privateWebsocketEndpoint":"","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"exchange":"Upbit","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.upbit.com/v1","publicWebsocketEndpoint":"wss://api.upbit.com/websocket/v1","privateWebsocketEndpoint":"","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
+        self.assertEqual(res, answer)
 
     def test_getConfig_4(self):
         client = OneXAPI.Upbit.Spot()
         res = client.getConfig("trashData123@@!%")
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"exchange":"Upbit","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.upbit.com/v1","publicWebsocketEndpoint":"wss://api.upbit.com/websocket/v1","privateWebsocketEndpoint":"","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"exchange":"Upbit","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.upbit.com/v1","publicWebsocketEndpoint":"wss://api.upbit.com/websocket/v1","privateWebsocketEndpoint":"","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
+        self.assertEqual(res, answer)
 
     def test_setConfig_1(self):
         client = OneXAPI.Upbit.Spot()
-        res = client.setConfig()
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0}}')
+        res = client.setConfig("")
+        answer = json.loads('{"success":false,"data":{"errorType":"JSON_PARSING_ERROR","errorMsg":""}}')
+        self.assertEqual(res, answer)
 
     def test_setConfig_2(self):
         client = OneXAPI.Upbit.Spot()
-        res = client.setConfig("")
-        self.assertEqual(res, '{"success":false,"data":{"errorType":"JSON_PARSING_ERROR","errorMsg":""}}')
+        res = client.setConfig("{}")
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0}}')
+        self.assertEqual(res, answer)
 
     def test_setConfig_3(self):
         client = OneXAPI.Upbit.Spot()
-        res = json.loads(client.setConfig('{"accessKey":1.1354}'))
+        res = client.setConfig('{"accessKey":1.1354}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
-        res = json.loads(client.setConfig('{"secretKey":11354}'))
+        res = client.setConfig('{"secretKey":11354}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
-        res = json.loads(client.setConfig('{"restEndpoint":null}'))
+        res = client.setConfig('{"restEndpoint":null}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
-        res = json.loads(client.setConfig('{"publicWebsocketEndpoint":true}'))
+        res = client.setConfig('{"publicWebsocketEndpoint":true}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
-        res = json.loads(client.setConfig('{"privateWebsocketEndpoint":{}}'))
+        res = client.setConfig('{"privateWebsocketEndpoint":{}}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
-        res = json.loads(client.setConfig('{"restRequestTimeout":1.1354}'))
+        res = client.setConfig('{"restRequestTimeout":1.1354}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
-        res = json.loads(client.setConfig('{"websocketConnectTimeout":"ffaew"}'))
+        res = client.setConfig('{"websocketConnectTimeout":"ffaew"}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
-        res = json.loads(client.setConfig('{"websocketIdleTimeout":false}'))
+        res = client.setConfig('{"websocketIdleTimeout":false}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
     def test_setConfig_4(self):
         client = OneXAPI.Upbit.Spot()
-        res = json.loads(client.setConfig('{"restEndpoint":"wrongEndpoint"}'))
+        res = client.setConfig('{"restEndpoint":"wrongEndpoint"}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
-        res = json.loads(client.setConfig('{"publicWebsocketEndpoint":"wrongEndpoint"}'))
+        res = client.setConfig('{"publicWebsocketEndpoint":"wrongEndpoint"}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
-        res = json.loads(client.setConfig('{"privateWebsocketEndpoint":"wrongEndpoint"}'))
+        res = client.setConfig('{"privateWebsocketEndpoint":"wrongEndpoint"}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
@@ -183,7 +186,7 @@ class Testing(unittest.TestCase):
 
         for item in testList:
             input = '{"' + item[0] + '":' + item[1] + '}'
-            res = json.loads(client.setConfig(input))
+            res = client.setConfig(input)
 
             self.assertEqual(res['success'], True)
             answer = None
@@ -194,7 +197,7 @@ class Testing(unittest.TestCase):
 
             self.assertEqual(res['data'][item[0]], answer)
 
-        res = json.loads(client.getConfig())
+        res = client.getConfig()
 
         for item in testList:
             self.assertEqual(res['success'], True)
@@ -210,41 +213,45 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Upbit.Spot()
 
         res = client.getEndpointCandidates()
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"restEndpoints":["https://api.upbit.com/v1"],"publicWebsocketEndpoints":["wss://api.upbit.com/websocket/v1"],"privateWebsocketEndpoints":[]}}')
 
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"restEndpoints":["https://api.upbit.com/v1"],"publicWebsocketEndpoints":["wss://api.upbit.com/websocket/v1"],"privateWebsocketEndpoints":[]}}')
+        self.assertEqual(res, answer)
 
     def test_getEndpointCandidates_2(self):
         client = OneXAPI.Upbit.Spot()
 
         res = client.getEndpointCandidates("")
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"restEndpoints":["https://api.upbit.com/v1"],"publicWebsocketEndpoints":["wss://api.upbit.com/websocket/v1"],"privateWebsocketEndpoints":[]}}')
 
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"restEndpoints":["https://api.upbit.com/v1"],"publicWebsocketEndpoints":["wss://api.upbit.com/websocket/v1"],"privateWebsocketEndpoints":[]}}')
+        self.assertEqual(res, answer)
 
     def test_getEndpointCandidates_3(self):
         client = OneXAPI.Upbit.Spot()
 
         res = client.getEndpointCandidates("{}")
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"restEndpoints":["https://api.upbit.com/v1"],"publicWebsocketEndpoints":["wss://api.upbit.com/websocket/v1"],"privateWebsocketEndpoints":[]}}')
 
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"restEndpoints":["https://api.upbit.com/v1"],"publicWebsocketEndpoints":["wss://api.upbit.com/websocket/v1"],"privateWebsocketEndpoints":[]}}')
+        self.assertEqual(res, answer)
 
     def test_getEndpointCandidates_4(self):
         client = OneXAPI.Upbit.Spot()
 
         res = client.getEndpointCandidates("uNPaRsib1eM5g")
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"restEndpoints":["https://api.upbit.com/v1"],"publicWebsocketEndpoints":["wss://api.upbit.com/websocket/v1"],"privateWebsocketEndpoints":[]}}')
 
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"restEndpoints":["https://api.upbit.com/v1"],"publicWebsocketEndpoints":["wss://api.upbit.com/websocket/v1"],"privateWebsocketEndpoints":[]}}')
+        self.assertEqual(res, answer)
 
     def test_has_1(self):
         client = OneXAPI.Upbit.Spot()
 
-        res = json.loads(client.has(''))
+        res = client.has('')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_has_2(self):
         client = OneXAPI.Upbit.Spot()
 
-        res = json.loads(client.has('{}'))
+        res = client.has('{}')
         answer = json.loads(hasMap)
 
         for key, value in answer.items():
@@ -253,7 +260,7 @@ class Testing(unittest.TestCase):
     def test_has_3(self):
         client = OneXAPI.Upbit.Spot()
 
-        res = json.loads(client.has('el12nlgv@!'))
+        res = client.has('el12nlgv@!')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
@@ -263,7 +270,7 @@ class Testing(unittest.TestCase):
         answer = json.loads(hasMap)
 
         for key, value in answer.items():
-            res = json.loads(client.has('{"api":"' + key + '"}'))
+            res = client.has('{"api":"' + key + '"}')
             self.assertEqual(res['success'], True)
             self.assertEqual(res['data'][key], value)
             self.assertEqual(res['data']['requestedApiCount'], 0)
@@ -271,7 +278,7 @@ class Testing(unittest.TestCase):
     def test_has_5(self):
         client = OneXAPI.Upbit.Spot()
 
-        res = json.loads(client.has('{"api":"notExistApi"}'))
+        res = client.has('{"api":"notExistApi"}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
@@ -279,18 +286,20 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Upbit.Spot()
 
         res = client.getWithdrawRoundingRule()
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"roundingRule":"round"}}')
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"roundingRule":"round"}}')
+        self.assertEqual(res, answer)
 
     def test_getWithdrawRoundingRule_2(self):
         client = OneXAPI.Upbit.Spot()
 
         res = client.getWithdrawRoundingRule('qwerion')
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"roundingRule":"round"}}')
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"roundingRule":"round"}}')
+        self.assertEqual(res, answer)
 
     def test_setWithdrawRoundingRule_1(self):
         client = OneXAPI.Upbit.Spot()
 
-        res = json.loads(client.setWithdrawRoundingRule('{"roundingRule":"wrongData"}'))
+        res = client.setWithdrawRoundingRule('{"roundingRule":"wrongData"}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
@@ -298,7 +307,7 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Upbit.Spot()
 
         for value in ['ceil', 'floor', 'round']:
-            res = json.loads(client.setWithdrawRoundingRule('{"roundingRule":"' + value +'"}'))
+            res = client.setWithdrawRoundingRule('{"roundingRule":"' + value +'"}')
             self.assertEqual(res['success'], True)
             self.assertEqual(res['data']['roundingRule'], value)
             self.assertEqual(res['data']['requestedApiCount'], 0)
@@ -309,15 +318,51 @@ class Testing(unittest.TestCase):
         testdict = ['{"currency":"bTc","address":"0x1345"}','{"currency":"bTc","amount":1.535478}','{"address":"fwlnvlwnlkfsd","amount":13384.13541345}']
         
         for payload in testdict:
-            res = json.loads(client.withdraw(payload))
+            res = client.withdraw(payload)
             self.assertEqual(res['success'], False)
             self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
+
+    def test_withdraw_2(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        res = client.withdraw('{"currency":"aDA","address":"wrongAddress","amount":135.1234358}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+        answer1 = 'https://api.upbit.com/v1/withdraws/chance?currency=ADA'
+        answer2 = 'https://api.upbit.com/v1/withdraws/coin?currency=ADA&amount=134.623436&address=wrongAddress&transaction_type=default'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
+        if util.searchLog(nowTime, answer2) is False:
+            self.fail(f'{answer2} not found')
+
+    def test_withdraw_3(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        res = client.withdraw('{"currency":"aDA","address":"wrongAddress","tag":"wrongTag","amount":135.1234358,"feeInAmount":false,"internal":true}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+        answer1 = 'https://api.upbit.com/v1/withdraws/chance?currency=ADA'
+        answer2 = 'https://api.upbit.com/v1/withdraws/coin?currency=ADA&amount=135.123436&address=wrongAddress&secondary_address=wrongTag&transaction_type=internal'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
+        if util.searchLog(nowTime, answer2) is False:
+            self.fail(f'{answer2} not found')
 
     def test_fetchAllCurrencies_1(self):
         time.sleep(1)
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
 
-        res = json.loads(client.fetchAllCurrencies())
+        res = client.fetchAllCurrencies()
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
         self.assertNotEqual(len(res['data']['currencies']), 0)
@@ -330,7 +375,7 @@ class Testing(unittest.TestCase):
         time.sleep(1)
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
 
-        res = json.loads(client.fetchAllCurrencies(""))
+        res = client.fetchAllCurrencies("")
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
         self.assertNotEqual(len(res['data']['currencies']), 0)
@@ -343,7 +388,7 @@ class Testing(unittest.TestCase):
         time.sleep(1)
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
         
-        res = json.loads(client.fetchBalance('{"currencies":[]}'))
+        res = client.fetchBalance('{"currencies":[]}')
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
         self.assertEqual(res['data']['fetchType'], "rest")
@@ -357,7 +402,7 @@ class Testing(unittest.TestCase):
         time.sleep(1)
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
         
-        res = json.loads(client.fetchBalance('{"currencies":["bTc","xRP","Eth"], "zeroBalance": true}'))
+        res = client.fetchBalance('{"currencies":["bTc","xRP","Eth"], "zeroBalance": true}')
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 2)
         self.assertEqual(res['data']['fetchType'], "rest")
@@ -372,7 +417,7 @@ class Testing(unittest.TestCase):
         time.sleep(1)
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
         
-        res = json.loads(client.fetchWalletStatus('{}'))
+        res = client.fetchWalletStatus('{}')
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
         self.assertNotEqual(len(res['data']['currencies']), 0)
@@ -389,7 +434,7 @@ class Testing(unittest.TestCase):
         time.sleep(1)
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
         
-        res = json.loads(client.fetchWalletStatus('{"currency":"bTc"}'))
+        res = client.fetchWalletStatus('{"currency":"bTc"}')
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
         self.assertEqual(len(res['data']['currencies']), 1)
@@ -406,7 +451,7 @@ class Testing(unittest.TestCase):
         time.sleep(1)
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
         
-        res = json.loads(client.fetchWithdrawHistory('{}'))
+        res = client.fetchWithdrawHistory('{}')
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
         self.assertNotEqual(len(res['data']['withdrawals']), 0)
@@ -420,11 +465,28 @@ class Testing(unittest.TestCase):
             self.assertTrue(type(withdrawHistory["status"]), type(""))
             self.assertTrue(type(withdrawHistory["created"]), type(""))
 
+    def test_fetchWithdrawHistory_2(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.fetchWithdrawHistory('{"currency":"mATic","orderId":"testOrderId","txid":"testTxId","startTime":132123534,"endTime":1125615123}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/withdraws?currency=MATIC&uuids=testOrderId&txids=testTxId'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
+
     def test_fetchDepositHistory_1(self):
         time.sleep(1)
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
         
-        res = json.loads(client.fetchDepositHistory('{}'))
+        res = client.fetchDepositHistory('{}')
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
         self.assertNotEqual(len(res['data']['deposits']), 0)
@@ -438,11 +500,28 @@ class Testing(unittest.TestCase):
             self.assertTrue(type(deposit["status"]), type(""))
             self.assertTrue(type(deposit["created"]), type(""))
 
+    def test_fetchDepositHistory_2(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.fetchDepositHistory('{"currency":"mATic","orderId":"testOrderId","txid":"testTxId","startTime":132123534,"endTime":1125615123}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/deposits?currency=MATIC&uuids=testOrderId&txids=testTxId'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
+
     def test_fetchDepositAddress_1(self):
         time.sleep(1)
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
         
-        res = json.loads(client.fetchDepositAddress('{}'))
+        res = client.fetchDepositAddress('{}')
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
         self.assertNotEqual(len(res['data']['addresses']), 0)
@@ -459,7 +538,7 @@ class Testing(unittest.TestCase):
         time.sleep(1)
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
         
-        res = json.loads(client.fetchDepositAddress('{"currency":"Btc"}'))
+        res = client.fetchDepositAddress('{"currency":"Btc"}')
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
         self.assertEqual(len(res['data']['addresses']), 1)
@@ -475,68 +554,231 @@ class Testing(unittest.TestCase):
     def test_isDepositCompleted_1(self):
         client = OneXAPI.Upbit.Spot()
 
-        res = json.loads(client.isDepositCompleted('{}'))
+        res = client.isDepositCompleted('{}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
+
+    def test_isDepositCompleted_2(self):
+        client = OneXAPI.Upbit.Spot()
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        res = client.isDepositCompleted('{"txid":"testTxid"}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/deposits?txids=testTxid'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
+
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":1,"isDepositCompleted":false}}')
+        self.assertEqual(res, answer)
+
+
+    def test_isDepositCompleted_3(self):
+        client = OneXAPI.Upbit.Spot()
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        res = client.isDepositCompleted('{"currency":"sOl","amount":35.213843,"since":1656044045154}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/deposits?currency=SOL'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
+
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":1,"isDepositCompleted":false}}')
+        self.assertEqual(res, answer)
+
+    def test_subscribeBalance_1(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeBalance()
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_SUPPORTED_API')
+
+
+    def test_subscribeBalance_2(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeBalance('')
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_SUPPORTED_API')
+
+    def test_subscribeBalance_3(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeBalance('{}')
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_SUPPORTED_API')
+
+    def test_subscribeBalance_4(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeBalance('Bqbqb@')
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_SUPPORTED_API')
+
+    def test_unsubscribeBalance_1(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.unsubscribeBalance()
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_SUPPORTED_API')
+
+    def test_unsubscribeBalance_2(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.unsubscribeBalance('')
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_SUPPORTED_API')
+
+    def test_unsubscribeBalance_3(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.unsubscribeBalance('{}')
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_SUPPORTED_API')
+
+    def test_unsubscribeBalance_4(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.unsubscribeBalance('Bqbqb@')
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_SUPPORTED_API')
+
+    def test_isSubscribingBalance_1(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.isSubscribingBalance()
+        answer = json.loads('{"success":true,"data":{"isSubscribing":false}}')
+
+        self.assertEqual(res, answer)
+
+    def test_isSubscribingBalance_2(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.isSubscribingBalance('')
+        answer = json.loads('{"success":true,"data":{"isSubscribing":false}}')
+
+        self.assertEqual(res, answer)
+
+    def test_isSubscribingBalance_3(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.isSubscribingBalance('{}')
+        answer = json.loads('{"success":true,"data":{"isSubscribing":false}}')
+
+        self.assertEqual(res, answer)
+
+    def test_isSubscribingBalance_4(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.isSubscribingBalance('Bqbqb@')
+        answer = json.loads('{"success":true,"data":{"isSubscribing":false}}')
+
+        self.assertEqual(res, answer)
 
     def test_getOrderRoundingRule_1(self):
         client = OneXAPI.Upbit.Spot()
         res = client.getOrderRoundingRule()
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
 
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
+        self.assertEqual(res, answer)
 
     def test_getOrderRoundingRule_2(self):
         client = OneXAPI.Upbit.Spot()
         res = client.getOrderRoundingRule("")
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
 
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
+        self.assertEqual(res, answer)
 
     def test_setOrderRoundingRule_1(self):
         client = OneXAPI.Upbit.Spot()
 
-        res = json.loads(client.setOrderRoundingRule('{"limitBuyBaseAmount":"wrongData"}'))
+        res = client.setOrderRoundingRule('{"limitBuyBaseAmount":"wrongData"}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
+
+    def test_setOrderRoundingRule_2(self):
+        self.skipTest("Not Defined")
 
     def test_orderLimitBuy_1(self):
         client = OneXAPI.Upbit.Spot()
         
-        res = json.loads(client.orderLimitBuy('{}'))
+        res = client.orderLimitBuy('{}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
+
+    def test_orderLimitBuy_2(self):
+        self.skipTest("Not Defined")
+
+    def test_orderLimitBuy_3(self):
+        self.skipTest("Not Defined")
 
     def test_orderLimitSell_1(self):
         client = OneXAPI.Upbit.Spot()
         
-        res = json.loads(client.orderLimitSell('{}'))
+        res = client.orderLimitSell('{}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
+
+    def test_orderLimitSell_2(self):
+        self.skipTest("Not Defined")
+
+    def test_orderLimitSell_3(self):
+        self.skipTest("Not Defined")
 
     def test_orderMarketBuy_1(self):
         client = OneXAPI.Upbit.Spot()
         
-        res = json.loads(client.orderMarketBuy('{}'))
+        res = client.orderMarketBuy('{}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
+
+    def test_orderMarketBuy_2(self):
+        self.skipTest("Not Defined")
+
+    def test_orderMarketBuy_3(self):
+        self.skipTest("Not Defined")
 
     def test_orderMarketSell_1(self):
         client = OneXAPI.Upbit.Spot()
         
-        res = json.loads(client.orderMarketSell('{}'))
+        res = client.orderMarketSell('{}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
+
+    def test_orderMarketSell_2(self):
+        self.skipTest("Not Defined")
+
+    def test_orderMarketSell_3(self):
+        self.skipTest("Not Defined")
 
     def test_orderCancel_1(self):
         client = OneXAPI.Upbit.Spot()
         
-        res = json.loads(client.orderCancel('{}'))
+        res = client.orderCancel('{}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
+
+    def test_orderCancel_2(self):
+        self.skipTest("Not Defined")
+
+    def test_orderCancel_3(self):
+        self.skipTest("Not Defined")
 
     def test_fetchTradingFee_1(self):
         client = OneXAPI.Upbit.Spot()
         
-        res = json.loads(client.fetchTradingFee('{"baseCurrency":"bTC"}'))
+        res = client.fetchTradingFee('{"baseCurrency":"bTC"}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
@@ -545,76 +787,76 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
         
         res = client.fetchTradingFee('{"baseCurrency":"bTC","quoteCurrency":"KRw"}')
-        self.assertEqual(res, '{"success":true,"data":{"requestedApiCount":1,"fees":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC","makerFee":"0.0005","takerFee":"0.0005"}]}}')
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":1,"fees":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC","makerFee":"0.0005","takerFee":"0.0005"}]}}')
+        self.assertEqual(res, answer)
 
     def test_fetchOrderInfo_1(self):
         client = OneXAPI.Upbit.Spot()
         
-        res = json.loads(client.fetchOrderInfo(''))
+        res = client.fetchOrderInfo('{}')
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
+    def test_fetchOrderInfo_2(self):
+        self.skipTest("Not Defined")
+
+    def test_fetchOrderInfo_3(self):
+        self.skipTest("Not Defined")
+
+    def test_fetchOrderInfo_4(self):
+        self.skipTest("Not Defined")
+
     def test_fetchOpenOrders(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_getCandleIntervalCandidates(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_fetchMarkets(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_fetchTicker(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_fetchOrderbook(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_fetchCandleHistory(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_subscribeBalance(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_unsubscribeBalance(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_isSubscribingBalance(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_getSubscribingTickers(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_getSubscribingOrderbooks(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_subscribeTicker(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_unsubscribeTicker(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_subscribeOrderbook(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
+        self.skipTest("Not Defined")
 
     def test_unsubscribeOrderbook(self):
-        client = OneXAPI.Upbit.Spot()
-        self.assertEqual("","")
-
+        self.skipTest("Not Defined")
 
 
 if __name__ == "__main__":
+    import os
+    filepath = './OneXAPI_Logs/OneXAPI_' + time.strftime('%Y-%m-%d', time.localtime(time.time())) + '.log'
+    
+    if os.path.exists(filepath):
+        os.remove(filepath)
+
     unittest.main()
