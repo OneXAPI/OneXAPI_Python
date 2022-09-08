@@ -1,5 +1,6 @@
 import unittest
 import sys, os, time
+from datetime import datetime, timedelta
 import json
 import util
 
@@ -1046,42 +1047,294 @@ class Testing(unittest.TestCase):
             self.assertEqual(type(market['quoteCurrency']), type(''))
             self.assertEqual(type(market['symbol']), type(''))
 
-    def test_fetchTicker(self):
+    def test_fetchTicker_1(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        res = client.fetchTicker('{}')
+
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
+
+    def test_fetchTicker_2(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        res = client.fetchTicker('{"baseCurrency":"bTc","quoteCurrency":"kRw"}')
+
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['data']['baseCurrency'], 'BTC')
+        self.assertEqual(res['data']['quoteCurrency'], 'KRW')
+        self.assertEqual(res['data']['symbol'], 'KRW-BTC')
+        self.assertEqual(res['data']['fetchType'], 'rest')
+        self.assertEqual(type(res['data']['openTime']), type(1234))
+        self.assertEqual(type(res['data']['openPrice']), type(''))
+        self.assertEqual(type(res['data']['closePrice']), type(''))
+        self.assertEqual(type(res['data']['lowPrice']), type(''))
+        self.assertEqual(type(res['data']['highPrice']), type(''))
+        self.assertEqual(type(res['data']['baseVolume']), type(''))
+        self.assertEqual(type(res['data']['quoteVolume']), type(''))
+
+    def test_fetchTicker_3(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"}]}')
+        res = client.fetchTicker('{"baseCurrency":"bTc","quoteCurrency":"kRw"}')
+
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 0)
+        self.assertEqual(res['data']['baseCurrency'], 'BTC')
+        self.assertEqual(res['data']['quoteCurrency'], 'KRW')
+        self.assertEqual(res['data']['symbol'], 'KRW-BTC')
+        self.assertEqual(res['data']['fetchType'], 'websocket')
+        self.assertEqual(type(res['data']['openTime']), type(1234))
+        self.assertEqual(type(res['data']['openPrice']), type(''))
+        self.assertEqual(type(res['data']['closePrice']), type(''))
+        self.assertEqual(type(res['data']['lowPrice']), type(''))
+        self.assertEqual(type(res['data']['highPrice']), type(''))
+        self.assertEqual(type(res['data']['baseVolume']), type(''))
+        self.assertEqual(type(res['data']['quoteVolume']), type(''))
+
+    def test_fetchTicker_4(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"}]}')
+        res = client.fetchTicker('{"baseCurrency":"bTc","quoteCurrency":"kRw","forceRestApi":true}')
+
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['data']['baseCurrency'], 'BTC')
+        self.assertEqual(res['data']['quoteCurrency'], 'KRW')
+        self.assertEqual(res['data']['symbol'], 'KRW-BTC')
+        self.assertEqual(res['data']['fetchType'], 'rest')
+        self.assertEqual(type(res['data']['openTime']), type(1234))
+        self.assertEqual(type(res['data']['openPrice']), type(''))
+        self.assertEqual(type(res['data']['closePrice']), type(''))
+        self.assertEqual(type(res['data']['lowPrice']), type(''))
+        self.assertEqual(type(res['data']['highPrice']), type(''))
+        self.assertEqual(type(res['data']['baseVolume']), type(''))
+        self.assertEqual(type(res['data']['quoteVolume']), type(''))
+
+    def test_fetchOrderbook_1(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        res = client.fetchOrderbook('{}')
+
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
+
+    def test_fetchOrderbook_2(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        res = client.fetchOrderbook('{"baseCurrency":"bTc","quoteCurrency":"kRw"}')
+
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['data']['baseCurrency'], 'BTC')
+        self.assertEqual(res['data']['quoteCurrency'], 'KRW')
+        self.assertEqual(res['data']['symbol'], 'KRW-BTC')
+        self.assertEqual(res['data']['fetchType'], 'rest')
+        self.assertEqual(type(res['data']['timestamp']), type(1234))
+        
+        for bid in res['data']['bids']:
+            self.assertEqual(type(bid['price']), type(''))
+            self.assertEqual(type(bid['size']), type(''))
+        
+        for ask in res['data']['asks']:
+            self.assertEqual(type(ask['price']), type(''))
+            self.assertEqual(type(ask['size']), type(''))
+
+    def test_fetchOrderbook_3(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"}]}')
+        res = client.fetchOrderbook('{"baseCurrency":"bTc","quoteCurrency":"kRw"}')
+
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 0)
+        self.assertEqual(res['data']['baseCurrency'], 'BTC')
+        self.assertEqual(res['data']['quoteCurrency'], 'KRW')
+        self.assertEqual(res['data']['symbol'], 'KRW-BTC')
+        self.assertEqual(res['data']['fetchType'], 'websocket')
+        self.assertEqual(type(res['data']['timestamp']), type(1234))
+        
+        for bid in res['data']['bids']:
+            self.assertEqual(type(bid['price']), type(''))
+            self.assertEqual(type(bid['size']), type(''))
+        
+        for ask in res['data']['asks']:
+            self.assertEqual(type(ask['price']), type(''))
+            self.assertEqual(type(ask['size']), type(''))
+
+    def test_fetchOrderbook_4(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"}]}')
+        res = client.fetchOrderbook('{"baseCurrency":"bTc","quoteCurrency":"kRw","forceRestApi":true}')
+
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['data']['baseCurrency'], 'BTC')
+        self.assertEqual(res['data']['quoteCurrency'], 'KRW')
+        self.assertEqual(res['data']['symbol'], 'KRW-BTC')
+        self.assertEqual(res['data']['fetchType'], 'rest')
+        self.assertEqual(type(res['data']['timestamp']), type(1234))
+        
+        for bid in res['data']['bids']:
+            self.assertEqual(type(bid['price']), type(''))
+            self.assertEqual(type(bid['size']), type(''))
+        
+        for ask in res['data']['asks']:
+            self.assertEqual(type(ask['price']), type(''))
+            self.assertEqual(type(ask['size']), type(''))
+
+    def test_fetchCandleHistory_1(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        res = client.fetchCandleHistory('{"baseCurrency":"bTc","quoteCurrency":"kRw"}')
+
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
+
+    def test_fetchCandleHistory_2(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        
+        specificTime = int((datetime.today() - timedelta(hours=2)).timestamp())
+        
+        res = client.fetchCandleHistory('{"baseCurrency":"bTc","quoteCurrency":"kRw","interval":"1min","startTime":' + str(specificTime) + '}')
+        
+        self.assertEqual(res['success'], True)
+        self.assertEqual(type(res['data']['requestedApiCount']), type(1))
+        self.assertEqual(type(res['data']['baseCurrency']), type(''))
+        self.assertEqual(type(res['data']['quoteCurrency']), type(''))
+        self.assertEqual(type(res['data']['symbol']), type(''))
+
+        for candle in res['data']['candles']:
+            self.assertEqual(type(candle['timestamp']), type(1))
+            self.assertEqual(type(candle['openPrice']), type(''))
+            self.assertEqual(type(candle['closePrice']), type(''))
+            self.assertEqual(type(candle['highPrice']), type(''))
+            self.assertEqual(type(candle['lowPrice']), type(''))
+            self.assertEqual(type(candle['baseVolume']), type(''))
+            self.assertEqual(type(candle['quoteVolume']), type(''))
+            
+
+    def test_fetchCandleHistory_3(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        
+        res = client.fetchCandleHistory('{"baseCurrency":"bTc","quoteCurrency":"kRw","interval":"1min","startTime":1656042045,"endTime":1656063182,"fetchInterval":900}')
+        
+        self.assertEqual(res['success'], True)
+        self.assertEqual(type(res['data']['requestedApiCount']), type(1))
+        self.assertEqual(type(res['data']['baseCurrency']), type(''))
+        self.assertEqual(type(res['data']['quoteCurrency']), type(''))
+        self.assertEqual(type(res['data']['symbol']), type(''))
+
+        for candle in res['data']['candles']:
+            self.assertEqual(type(candle['timestamp']), type(1))
+            self.assertEqual(type(candle['openPrice']), type(''))
+            self.assertEqual(type(candle['closePrice']), type(''))
+            self.assertEqual(type(candle['highPrice']), type(''))
+            self.assertEqual(type(candle['lowPrice']), type(''))
+            self.assertEqual(type(candle['baseVolume']), type(''))
+            self.assertEqual(type(candle['quoteVolume']), type(''))
+        
+    def test_getSubscribingTickers_1(self):
         self.skipTest("Not Defined")
 
-    def test_fetchOrderbook(self):
+    def test_getSubscribingTickers_2(self):
         self.skipTest("Not Defined")
 
-    def test_fetchCandleHistory(self):
+    def test_getSubscribingTickers_3(self):
         self.skipTest("Not Defined")
 
-    def test_subscribeBalance(self):
+    def test_getSubscribingTickers_4(self):
         self.skipTest("Not Defined")
 
-    def test_unsubscribeBalance(self):
+    def test_getSubscribingTickers_5(self):
         self.skipTest("Not Defined")
 
-    def test_isSubscribingBalance(self):
+    def test_getSubscribingOrderbooks_1(self):
+        self.skipTest("Not Defined")
+    
+    def test_getSubscribingOrderbooks_2(self):
         self.skipTest("Not Defined")
 
-    def test_getSubscribingTickers(self):
+    def test_getSubscribingOrderbooks_3(self):
         self.skipTest("Not Defined")
 
-    def test_getSubscribingOrderbooks(self):
+    def test_getSubscribingOrderbooks_4(self):
         self.skipTest("Not Defined")
 
-    def test_subscribeTicker(self):
+    def test_getSubscribingOrderbooks_5(self):
         self.skipTest("Not Defined")
 
-    def test_unsubscribeTicker(self):
+    def test_subscribeTicker_1(self):
         self.skipTest("Not Defined")
 
-    def test_subscribeOrderbook(self):
+    def test_subscribeTicker_2(self):
         self.skipTest("Not Defined")
 
-    def test_unsubscribeOrderbook(self):
+    def test_subscribeTicker_3(self):
         self.skipTest("Not Defined")
 
+    def test_subscribeTicker_4(self):
+        self.skipTest("Not Defined")
+
+    def test_unsubscribeTicker_1(self):
+        self.skipTest("Not Defined")
+
+    def test_unsubscribeTicker_2(self):
+        self.skipTest("Not Defined")
+
+    def test_unsubscribeTicker_3(self):
+        self.skipTest("Not Defined")
+
+    def test_unsubscribeTicker_4(self):
+        self.skipTest("Not Defined")
+
+    def test_unsubscribeTicker_5(self):
+        self.skipTest("Not Defined")
+
+    def test_subscribeOrderbook_1(self):
+        self.skipTest("Not Defined")
+
+    def test_subscribeOrderbook_2(self):
+        self.skipTest("Not Defined")
+
+    def test_subscribeOrderbook_3(self):
+        self.skipTest("Not Defined")
+
+    def test_subscribeOrderbook_4(self):
+        self.skipTest("Not Defined")
+
+    def test_unsubscribeOrderbook_1(self):
+        self.skipTest("Not Defined")
+
+    def test_unsubscribeOrderbook_2(self):
+        self.skipTest("Not Defined")
+
+    def test_unsubscribeOrderbook_3(self):
+        self.skipTest("Not Defined")
+
+    def test_unsubscribeOrderbook_4(self):
+        self.skipTest("Not Defined")
+
+    def test_unsubscribeOrderbook_5(self):
+        self.skipTest("Not Defined")
+
+    def test_websocketFullTest(self):
+        self.skipTest("Not Defined")
 
 if __name__ == "__main__":
     import os
