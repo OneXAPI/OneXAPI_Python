@@ -559,7 +559,8 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_isDepositCompleted_2(self):
-        client = OneXAPI.Upbit.Spot()
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
 
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
@@ -579,7 +580,8 @@ class Testing(unittest.TestCase):
 
 
     def test_isDepositCompleted_3(self):
-        client = OneXAPI.Upbit.Spot()
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
 
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
@@ -708,7 +710,28 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
     def test_setOrderRoundingRule_2(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        answer_ceil = json.loads('{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"ceil","limitBuyBaseAmount":"ceil","limitSellPrice":"ceil","limitSellBaseAmount":"ceil","marketBuyQuoteAmount":"ceil","marketSellBaseAmount":"ceil"}}')
+        answer_floor = json.loads('{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"floor","limitBuyBaseAmount":"floor","limitSellPrice":"floor","limitSellBaseAmount":"floor","marketBuyQuoteAmount":"floor","marketSellBaseAmount":"floor"}}')
+        answer_round = json.loads('{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
+
+        keyList = ['limitBuyPrice', 'limitBuyBaseAmount', 'limitSellPrice', 'limitSellBaseAmount', 'marketBuyQuoteAmount', 'marketSellBaseAmount']
+        valueList = ['ceil', 'floor', 'round']
+        
+        self.maxDiff = None
+
+        for value in valueList:
+            for key in keyList:
+                input = '{"' + key + '":"' + value + '"}'
+                client.setOrderRoundingRule(input)
+            res = client.getOrderRoundingRule()
+            if(value == 'ceil'):
+                self.assertEqual(res, answer_ceil)
+            elif(value == 'floor'):
+                self.assertEqual(res, answer_floor)
+            elif(value == 'round'):
+                self.assertEqual(res, answer_round)
 
     def test_orderLimitBuy_1(self):
         client = OneXAPI.Upbit.Spot()
@@ -718,10 +741,38 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_orderLimitBuy_2(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.orderLimitBuy('{"baseCurrency":"bTC","quoteCurrency":"KRw","price":13501545.1234358,"baseAmount":35.135689342158}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/orders?market=KRW-BTC&side=bid&volume=35.13568934&price=13502000&ord_type=limit'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
 
     def test_orderLimitBuy_3(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.orderLimitBuy('{"baseCurrency":"bTC","quoteCurrency":"KRw","price":13501545.1234358,"baseAmount":35.135689342158,"clientOrderId":"testId","amplifier":1.0346}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/orders?market=KRW-BTC&side=bid&volume=35.13568934&price=13969000&ord_type=limit&identifier=testId'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
 
     def test_orderLimitSell_1(self):
         client = OneXAPI.Upbit.Spot()
@@ -731,10 +782,38 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_orderLimitSell_2(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.orderLimitSell('{"baseCurrency":"bTC","quoteCurrency":"KRw","price":13501545.1234358,"baseAmount":35.135689342158}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/orders?market=KRW-BTC&side=ask&volume=35.13568934&price=13502000&ord_type=limit'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
 
     def test_orderLimitSell_3(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.orderLimitSell('{"baseCurrency":"bTC","quoteCurrency":"KRw","price":13501545.1234358,"baseAmount":35.135689342158,"clientOrderId":"testId","amplifier":0.96348}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/orders?market=KRW-BTC&side=ask&volume=35.13568934&price=13008000&ord_type=limit&identifier=testId'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
 
     def test_orderMarketBuy_1(self):
         client = OneXAPI.Upbit.Spot()
@@ -744,10 +823,38 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_orderMarketBuy_2(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.orderMarketBuy('{"baseCurrency":"bTC","quoteCurrency":"KRw","quoteAmount":38951381.391351334}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/orders?market=KRW-BTC&side=bid&price=38951381&ord_type=price'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
 
     def test_orderMarketBuy_3(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.orderMarketBuy('{"baseCurrency":"bTC","quoteCurrency":"KRw","quoteAmount":38951381.391351334,"clientOrderId":"testId"}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/orders?market=KRW-BTC&side=bid&price=38951381&ord_type=price&identifier=testId'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
 
     def test_orderMarketSell_1(self):
         client = OneXAPI.Upbit.Spot()
@@ -757,10 +864,38 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_orderMarketSell_2(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.orderMarketSell('{"baseCurrency":"bTC","quoteCurrency":"KRw","baseAmount":83.1338494835}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/orders?market=KRW-BTC&side=ask&volume=83.13384948&ord_type=market'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
 
     def test_orderMarketSell_3(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.orderMarketSell('{"baseCurrency":"bTC","quoteCurrency":"KRw","baseAmount":83.1338494835,"clientOrderId":"testId"}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/orders?market=KRW-BTC&side=ask&volume=83.13384948&ord_type=market&identifier=testId'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
 
     def test_orderCancel_1(self):
         client = OneXAPI.Upbit.Spot()
@@ -770,10 +905,38 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_orderCancel_2(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.orderCancel('{"orderId":"testOrderId"}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/order?uuid=testOrderId'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
 
     def test_orderCancel_3(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.orderCancel('{"clientOrderId":"testClientOrderId"}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/order?identifier=testClientOrderId'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
 
     def test_fetchTradingFee_1(self):
         client = OneXAPI.Upbit.Spot()
@@ -798,15 +961,46 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_fetchOrderInfo_2(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.fetchOrderInfo('{"orderId":"testOrderId"}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/order?uuid=testOrderId'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
 
     def test_fetchOrderInfo_3(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
+
+        nowTime = time.localtime(time.time())
+        
+        client.fetchOrderInfo('{"clientOrderId":"testClientOrderId"}')
+        time.sleep(1)
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
+
+        answer1 = 'https://api.upbit.com/v1/order?identifier=testClientOrderId'
+
+        if util.searchLog(nowTime, answer1) is False:
+            self.fail(f'{answer1} not found')
 
     def test_fetchOrderInfo_4(self):
         self.skipTest("Not Defined")
 
-    def test_fetchOpenOrders(self):
+    def test_fetchOpenOrders_1(self):
+        self.skipTest("Not Defined")
+
+    def test_fetchOpenOrders_2(self):
         self.skipTest("Not Defined")
 
     def test_getCandleIntervalCandidates(self):
