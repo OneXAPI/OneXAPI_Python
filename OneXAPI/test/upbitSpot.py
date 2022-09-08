@@ -1322,16 +1322,51 @@ class Testing(unittest.TestCase):
         self.assertEqual(res, answer)
 
     def test_subscribeTicker_1(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeTicker()
+        
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_subscribeTicker_2(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeTicker('{}')
+        
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_subscribeTicker_3(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeTicker('Bqbqb@')
+        
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_subscribeTicker_4(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"},{"baseCurrency":"ETH","quoteCurrency":"BTC"}]}')
+        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"BTC-ETH"}],"subscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"BTC-ETH"}]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.subscribeTicker('{"market":[{"baseCurrency":"ETH","quoteCurrency":"KRW"}], "reconnect": true}')
+        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}],"subscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"BTC-ETH"},{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}]}}')
+
+        self.assertEqual(res, answer)
 
     def test_unsubscribeTicker_1(self):
         self.skipTest("Not Defined")
