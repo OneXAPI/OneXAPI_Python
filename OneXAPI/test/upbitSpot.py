@@ -1250,34 +1250,76 @@ class Testing(unittest.TestCase):
             self.assertEqual(type(candle['quoteVolume']), type(''))
         
     def test_getSubscribingTickers_1(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"data":{"tickers":[]}}')
+        self.assertEqual(res, answer)
 
     def test_getSubscribingTickers_2(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.getSubscribingTickers('')
+        answer = json.loads('{"success":true,"data":{"tickers":[]}}')
+        self.assertEqual(res, answer)
 
     def test_getSubscribingTickers_3(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.getSubscribingTickers('{}')
+        answer = json.loads('{"success":true,"data":{"tickers":[]}}')
+        self.assertEqual(res, answer)
 
     def test_getSubscribingTickers_4(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.getSubscribingTickers('Bqbqb@')
+        answer = json.loads('{"success":true,"data":{"tickers":[]}}')
+        self.assertEqual(res, answer)
 
     def test_getSubscribingTickers_5(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"},{"baseCurrency":"ETH","quoteCurrency":"BTC"}]}')
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"BTC-ETH"}]}}')
+        self.assertEqual(res, answer)
 
     def test_getSubscribingOrderbooks_1(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.getSubscribingOrderbooks()
+        answer = json.loads('{"success":true,"data":{"orderbooks":[]}}')
+        self.assertEqual(res, answer)
     
     def test_getSubscribingOrderbooks_2(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.getSubscribingOrderbooks('')
+        answer = json.loads('{"success":true,"data":{"orderbooks":[]}}')
+        self.assertEqual(res, answer)
 
     def test_getSubscribingOrderbooks_3(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.getSubscribingOrderbooks('{}')
+        answer = json.loads('{"success":true,"data":{"orderbooks":[]}}')
+        self.assertEqual(res, answer)
 
     def test_getSubscribingOrderbooks_4(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.getSubscribingOrderbooks('Bqbqb@')
+        answer = json.loads('{"success":true,"data":{"orderbooks":[]}}')
+        self.assertEqual(res, answer)
 
     def test_getSubscribingOrderbooks_5(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"},{"baseCurrency":"ETH","quoteCurrency":"BTC"}]}')
+        res = client.getSubscribingOrderbooks()
+        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"BTC-ETH"}]}}')
+        self.assertEqual(res, answer)
 
     def test_subscribeTicker_1(self):
         self.skipTest("Not Defined")
