@@ -1003,11 +1003,48 @@ class Testing(unittest.TestCase):
     def test_fetchOpenOrders_2(self):
         self.skipTest("Not Defined")
 
-    def test_getCandleIntervalCandidates(self):
-        self.skipTest("Not Defined")
+    def test_getCandleIntervalCandidates_1(self):
+        client = OneXAPI.Upbit.Spot()
 
-    def test_fetchMarkets(self):
-        self.skipTest("Not Defined")
+        res = client.getCandleIntervalCandidates()
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"intervals":["10min","15min","1day","1hour","1min","1month","1week","30min","3min","4hour","5min"]}}')
+
+        self.assertEqual(res, answer)
+
+    def test_getCandleIntervalCandidates_2(self):
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.getCandleIntervalCandidates('')
+        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"intervals":["10min","15min","1day","1hour","1min","1month","1week","30min","3min","4hour","5min"]}}')
+
+        self.assertEqual(res, answer)
+
+    def test_fetchMarkets_1(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        res = client.fetchMarkets('{}')
+        
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        for market in res['data']['markets']:
+            self.assertEqual(type(market['baseCurrency']), type(''))
+            self.assertEqual(type(market['quoteCurrency']), type(''))
+            self.assertEqual(type(market['symbol']), type(''))
+
+    def test_fetchMarkets_2(self):
+        time.sleep(1)
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+
+        res = client.fetchMarkets('{"baseCurrency":"bTC","quoteCurrency":"KrW"}')
+        
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']['markets']), 1)
+        for market in res['data']['markets']:
+            self.assertEqual(type(market['baseCurrency']), type(''))
+            self.assertEqual(type(market['quoteCurrency']), type(''))
+            self.assertEqual(type(market['symbol']), type(''))
 
     def test_fetchTicker(self):
         self.skipTest("Not Defined")
