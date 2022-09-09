@@ -1369,31 +1369,87 @@ class Testing(unittest.TestCase):
         self.assertEqual(res, answer)
 
     def test_unsubscribeTicker_1(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.unsubscribeTicker('')
+        
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_unsubscribeTicker_2(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.unsubscribeTicker('{}')
+        
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_unsubscribeTicker_3(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.unsubscribeTicker('Bqbqb@')
+        
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_unsubscribeTicker_4(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"},{"baseCurrency":"ETH","quoteCurrency":"BTC"}]}')
+        res = client.unsubscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"},{"baseCurrency":"ETH","quoteCurrency":"BTC"}]}')
+        answer = json.loads('{"success":true,"data":{"unsubscribed":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"BTC-ETH"}],"unsubscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
 
     def test_unsubscribeTicker_5(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"},{"baseCurrency":"ETH","quoteCurrency":"BTC"}]}')
+        res = client.unsubscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"},{"baseCurrency":"ETH","quoteCurrency":"BTC"}],"reconnect":true}')
+        answer = json.loads('{"success":true,"data":{"unsubscribed":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"BTC-ETH"}],"unsubscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
 
     def test_subscribeOrderbook_1(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeOrderbook('')
+        
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_subscribeOrderbook_2(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeOrderbook('{}')
+        
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_subscribeOrderbook_3(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeOrderbook('Bqbqb@')
+        
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_subscribeOrderbook_4(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"},{"baseCurrency":"ETH","quoteCurrency":"BTC"}]}')
+        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"BTC-ETH"}],"subscribeFailed":[]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.getSubscribingOrderbooks()
+        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"BTC-ETH"}]}}')
+
+        res = client.subscribeOrderbook('{"market":[{"baseCurrency":"ETH","quoteCurrency":"KRW"}], "reconnect": true}')
+        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}],"subscribeFailed":[]}}')
+
+        res = client.getSubscribingOrderbooks()
+        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"BTC-ETH"},{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"BTC-ETH"}]}}')
 
     def test_unsubscribeOrderbook_1(self):
         self.skipTest("Not Defined")
