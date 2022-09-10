@@ -719,8 +719,6 @@ class Testing(unittest.TestCase):
 
         keyList = ['limitBuyPrice', 'limitBuyBaseAmount', 'limitSellPrice', 'limitSellBaseAmount', 'marketBuyQuoteAmount', 'marketSellBaseAmount']
         valueList = ['ceil', 'floor', 'round']
-        
-        self.maxDiff = None
 
         for value in valueList:
             for key in keyList:
@@ -1494,7 +1492,77 @@ class Testing(unittest.TestCase):
         self.assertDictEqual(res, answer)
 
     def test_websocketFullTest(self):
-        self.skipTest("Not Defined")
+        client = OneXAPI.Upbit.Spot()
+
+        res = client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"},{"baseCurrency":"ETH","quoteCurrency":"KRW"}]}')
+        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}],"subscribeFailed":[]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"},{"baseCurrency":"ETH","quoteCurrency":"KRW"}],"reconnect":true}')
+        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}],"subscribeFailed":[]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.getSubscribingOrderbooks()
+        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.unsubscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"KRW"}],"reconnect":true}')
+        answer = json.loads('{"success":true,"data":{"unsubscribed":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"}],"unsubscribeFailed":[]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.getSubscribingOrderbooks()
+        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.unsubscribeOrderbook('{"market":[{"baseCurrency":"ETH","quoteCurrency":"KRW"}],"reconnect":true}')
+        answer = json.loads('{"success":true,"data":{"unsubscribed":[{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}],"unsubscribeFailed":[]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.getSubscribingOrderbooks()
+        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"}]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.subscribeOrderbook('{"market":[{"baseCurrency":"XRP","quoteCurrency":"KRW"},{"baseCurrency":"ETH","quoteCurrency":"KRW"}],"reconnect":true}')
+        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"XRP","quoteCurrency":"KRW","symbol":"KRW-XRP"},{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}],"subscribeFailed":[]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}]}}')
+
+        self.assertDictEqual(res, answer)
+
+        res = client.getSubscribingOrderbooks()
+        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"KRW","symbol":"KRW-BTC"},{"baseCurrency":"XRP","quoteCurrency":"KRW","symbol":"KRW-XRP"},{"baseCurrency":"ETH","quoteCurrency":"KRW","symbol":"KRW-ETH"}]}}')
+
+
 
 if __name__ == "__main__":
     import os
