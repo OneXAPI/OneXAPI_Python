@@ -3,12 +3,10 @@ import sys, os, time
 from datetime import datetime, timedelta
 import json
 import util
+from exchangeKeys import *
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
 import OneXAPI
-
-UPBIT_ACCESS_KEY = ""
-UPBIT_SECRET_KEY = ""
 
 hasMap = """
 {
