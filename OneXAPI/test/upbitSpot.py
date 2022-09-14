@@ -3,7 +3,7 @@ import sys, os, time
 from datetime import datetime, timedelta
 import json
 import util
-from exchangeKeys import *
+from exchangeKeys import UPBIT_ACCESS_KEY, UPBIT_SECRET_KEY
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
 import OneXAPI
@@ -302,7 +302,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['success'], False)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
-    def test_setWithdrawRoundingRule_1(self):
+    def test_setWithdrawRoundingRule_2(self):
         client = OneXAPI.Upbit.Spot()
 
         for value in ['ceil', 'floor', 'round']:
@@ -367,8 +367,8 @@ class Testing(unittest.TestCase):
         self.assertNotEqual(len(res['data']['currencies']), 0)
 
         for currency, chainsDict in res['data']['currencies'].items():
-            self.assertTrue(type(currency), type(""))
-            self.assertTrue(json.dumps(chainsDict), '{"chains": []}')
+            self.assertEqual(type(currency), type(""))
+            self.assertEqual(json.dumps(chainsDict), '{"chains": []}')
 
     def test_fetchAllCurrencies_2(self):
         time.sleep(1)
@@ -380,8 +380,8 @@ class Testing(unittest.TestCase):
         self.assertNotEqual(len(res['data']['currencies']), 0)
 
         for currency, chainsDict in res['data']['currencies'].items():
-            self.assertTrue(type(currency), type(""))
-            self.assertTrue(json.dumps(chainsDict), '{"chains": []}')
+            self.assertEqual(type(currency), type(""))
+            self.assertEqual(json.dumps(chainsDict), '{"chains": []}')
 
     def test_fetchBalance_1(self):
         time.sleep(1)
@@ -393,9 +393,9 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['data']['fetchType'], "rest")
         
         for currency, balance in res['data']['balance'].items():
-            self.assertTrue(type(currency), type(""))
-            self.assertTrue(type(balance["free"]), type(""))
-            self.assertTrue(type(balance["locked"]), type(""))
+            self.assertEqual(type(currency), type(""))
+            self.assertEqual(type(balance["free"]), type(""))
+            self.assertEqual(type(balance["locked"]), type(""))
 
     def test_fetchBalance_2(self):
         time.sleep(1)
@@ -408,9 +408,9 @@ class Testing(unittest.TestCase):
         self.assertEqual(len(res['data']['balance']), 3)
         
         for currency, balance in res['data']['balance'].items():
-            self.assertTrue(type(currency), type(""))
-            self.assertTrue(type(balance["free"]), type(""))
-            self.assertTrue(type(balance["locked"]), type(""))
+            self.assertEqual(type(currency), type(""))
+            self.assertEqual(type(balance["free"]), type(""))
+            self.assertEqual(type(balance["locked"]), type(""))
 
     def test_fetchWalletStatus_1(self):
         time.sleep(1)
@@ -422,12 +422,12 @@ class Testing(unittest.TestCase):
         self.assertNotEqual(len(res['data']['currencies']), 0)
 
         for currency, wallet in res['data']['currencies'].items():
-            self.assertTrue(type(currency), type(""))
-            self.assertTrue(type(wallet["chains"]), type([]))
-            self.assertTrue(len(wallet["chains"]), 1)
+            self.assertEqual(type(currency), type(""))
+            self.assertEqual(type(wallet["chains"]), type([]))
+            self.assertEqual(len(wallet["chains"]), 1)
             self.assertEqual(wallet["chains"][0]["chain"], "")
-            self.assertTrue(type(wallet["chains"][0]["withdrawEnable"]), type(True))
-            self.assertTrue(type(wallet["chains"][0]["depositEnable"]), type(True))
+            self.assertEqual(type(wallet["chains"][0]["withdrawEnable"]), type(True))
+            self.assertEqual(type(wallet["chains"][0]["depositEnable"]), type(True))
 
     def test_fetchWalletStatus_2(self):
         time.sleep(1)
@@ -439,12 +439,12 @@ class Testing(unittest.TestCase):
         self.assertEqual(len(res['data']['currencies']), 1)
 
         for currency, wallet in res['data']['currencies'].items():
-            self.assertTrue(type(currency), type(""))
-            self.assertTrue(type(wallet["chains"]), type([]))
-            self.assertTrue(len(wallet["chains"]), 1)
+            self.assertEqual(type(currency), type(""))
+            self.assertEqual(type(wallet["chains"]), type([]))
+            self.assertEqual(len(wallet["chains"]), 1)
             self.assertEqual(wallet["chains"][0]["chain"], "")
-            self.assertTrue(type(wallet["chains"][0]["withdrawEnable"]), type(True))
-            self.assertTrue(type(wallet["chains"][0]["depositEnable"]), type(True))
+            self.assertEqual(type(wallet["chains"][0]["withdrawEnable"]), type(True))
+            self.assertEqual(type(wallet["chains"][0]["depositEnable"]), type(True))
 
     def test_fetchWithdrawHistory_1(self):
         time.sleep(1)
@@ -453,16 +453,15 @@ class Testing(unittest.TestCase):
         res = client.fetchWithdrawHistory('{}')
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
-        self.assertNotEqual(len(res['data']['withdrawals']), 0)
 
         for withdrawHistory in res['data']['withdrawals']:
-            self.assertTrue(type(withdrawHistory["currency"]), type(""))
-            self.assertTrue(type(withdrawHistory["amount"]), type(""))
-            self.assertTrue(type(withdrawHistory["fee"]), type(""))
-            self.assertTrue(type(withdrawHistory["orderId"]), type(""))
-            self.assertTrue(type(withdrawHistory["txid"]), type(""))
-            self.assertTrue(type(withdrawHistory["status"]), type(""))
-            self.assertTrue(type(withdrawHistory["created"]), type(""))
+            self.assertEqual(type(withdrawHistory["currency"]), type(""))
+            self.assertEqual(type(withdrawHistory["amount"]), type(""))
+            self.assertEqual(type(withdrawHistory["fee"]), type(""))
+            self.assertEqual(type(withdrawHistory["orderId"]), type(""))
+            self.assertEqual(type(withdrawHistory["txid"]), type(""))
+            self.assertEqual(type(withdrawHistory["status"]), type(""))
+            self.assertEqual(type(withdrawHistory["created"]), type(1))
 
     def test_fetchWithdrawHistory_2(self):
         time.sleep(1)
@@ -491,13 +490,13 @@ class Testing(unittest.TestCase):
         self.assertNotEqual(len(res['data']['deposits']), 0)
 
         for deposit in res['data']['deposits']:
-            self.assertTrue(type(deposit["currency"]), type(""))
-            self.assertTrue(type(deposit["amount"]), type(""))
-            self.assertTrue(type(deposit["fee"]), type(""))
-            self.assertTrue(type(deposit["orderId"]), type(""))
-            self.assertTrue(type(deposit["txid"]), type(""))
-            self.assertTrue(type(deposit["status"]), type(""))
-            self.assertTrue(type(deposit["created"]), type(""))
+            self.assertEqual(type(deposit["currency"]), type(""))
+            self.assertEqual(type(deposit["amount"]), type(""))
+            self.assertEqual(type(deposit["fee"]), type(""))
+            self.assertEqual(type(deposit["orderId"]), type(""))
+            self.assertEqual(type(deposit["txid"]), type(""))
+            self.assertEqual(type(deposit["status"]), type(""))
+            self.assertEqual(type(deposit["created"]), type(1))
 
     def test_fetchDepositHistory_2(self):
         time.sleep(1)
@@ -526,12 +525,12 @@ class Testing(unittest.TestCase):
         self.assertNotEqual(len(res['data']['addresses']), 0)
 
         for currency, depositDict in res['data']['addresses'].items():
-            self.assertTrue(type(currency), type(""))
-            self.assertTrue(type(depositDict), type([]))
+            self.assertEqual(type(currency), type(""))
+            self.assertEqual(type(depositDict), type([]))
             self.assertEqual(len(depositDict), 1)
             self.assertEqual(depositDict[0]["chain"], "")
-            self.assertTrue(type(depositDict[0]["address"]), type(""))
-            self.assertTrue(type(depositDict[0]["tag"]), type(""))
+            self.assertEqual(type(depositDict[0]["address"]), type(""))
+            self.assertEqual(type(depositDict[0]["tag"]), type(""))
     
     def test_fetchDepositAddress_2(self):
         time.sleep(1)
@@ -543,12 +542,12 @@ class Testing(unittest.TestCase):
         self.assertEqual(len(res['data']['addresses']), 1)
 
         for currency, depositDict in res['data']['addresses'].items():
-            self.assertTrue(type(currency), type(""))
-            self.assertTrue(type(depositDict), type([]))
+            self.assertEqual(type(currency), type(""))
+            self.assertEqual(type(depositDict), type([]))
             self.assertEqual(len(depositDict), 1)
             self.assertEqual(depositDict[0]["chain"], "")
-            self.assertTrue(type(depositDict[0]["address"]), type(""))
-            self.assertTrue(type(depositDict[0]["tag"]), type(""))
+            self.assertEqual(type(depositDict[0]["address"]), type(""))
+            self.assertEqual(type(depositDict[0]["tag"]), type(""))
 
     def test_isDepositCompleted_1(self):
         client = OneXAPI.Upbit.Spot()
