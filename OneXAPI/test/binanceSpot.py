@@ -1086,13 +1086,95 @@ class Testing(unittest.TestCase):
             self.fail(f'{answer1} not found')
 
     def test_fetchOrderInfo_5(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
+
+        res = client.fetchOrderbook('{"baseCurrency": "XrP", "quoteCurrency": "UsdT"}')
+        bidPrice = int(res['bids'][0]['price'])
+
+        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "price": ' + bidPrice + ', "baseAmount": 25, "amplifier": 0.96}')
+        orderId = res['orderId']
+
+        res = client.fetchOrderInfo('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": ' + orderId + '}')
+        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": ' + orderId + '}')
+
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 2)
+        self.assertEqual(type(res['data']['baseCurrency']), type(''))
+        self.assertEqual(type(res['data']['quoteCurrency']), type(''))
+        self.assertEqual(type(res['data']['symbol']), type(''))
+        self.assertEqual(type(res['data']['orderId']), type(''))
+        self.assertEqual(res['data']['orderId'], orderId)
+        if res['data']['side'] not in ['buy', 'sell']:
+            self.fail('side is wrong')
+        self.assertEqual(type(res['data']['originalAmount']), type(''))
+        self.assertEqual(type(res['data']['filledAmount']), type(''))
+        self.assertEqual(type(res['data']['remainingAmount']), type(''))
+        self.assertEqual(type(res['data']['originalPrice']), type(''))
+        self.assertEqual(type(res['data']['avgFillPrice']), type(''))
+        self.assertEqual(type(res['data']['created']), type(1))
+        self.assertEqual(type(res['data']['feeCurrency']), type(''))
+        self.assertEqual(type(res['data']['feeAmount']), type(''))
+        self.assertEqual(type(res['data']['status']), type(''))
+        self.assertEqual(res['data']['fills'], [])
 
     def test_fetchOpenOrders_1(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
+
+        res = client.fetchOrderbook('{"baseCurrency": "XrP", "quoteCurrency": "UsdT"}')
+        bidPrice = int(res['bids'][0]['price'])
+
+        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "price": ' + bidPrice + ', "baseAmount": 25, "amplifier": 0.96}')
+        orderId = res['orderId']
+
+        res = client.fetchOpenOrders('{}')
+        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": ' + orderId + '}')
+
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        for openOrder in res['data']['openOrders']:
+            self.assertEqual(type(openOrder['baseCurrency']), type(''))
+            self.assertEqual(type(openOrder['quoteCurrency']), type(''))
+            self.assertEqual(type(openOrder['symbol']), type(''))
+            self.assertEqual(type(openOrder['orderId']), type(''))
+            self.assertEqual(type(openOrder['side']), type(''))
+            self.assertEqual(type(openOrder['originalAmount']), type(''))
+            self.assertEqual(type(openOrder['filledAmount']), type(''))
+            self.assertEqual(type(openOrder['remainingAmount']), type(''))
+            self.assertEqual(type(openOrder['originalPrice']), type(''))
+            self.assertEqual(type(openOrder['created']), type(1))
+            self.assertEqual(type(openOrder['lockedCurrency']), type(''))
+            self.assertEqual(type(openOrder['lockedAmount']), type(''))
 
     def test_fetchOpenOrders_2(self):
-        self.skipTest("Not Defined")
+        time.sleep(1)
+        client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
+
+        res = client.fetchOrderbook('{"baseCurrency": "XrP", "quoteCurrency": "UsdT"}')
+        bidPrice = int(res['bids'][0]['price'])
+
+        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "price": ' + bidPrice + ', "baseAmount": 25, "amplifier": 0.96}')
+        orderId = res['orderId']
+
+        res = client.fetchOpenOrders('{"baseCurrency": "XRP", "quoteCurrency": "uSDt", "side": "buy"}')
+        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": ' + orderId + '}')
+
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['data']['requestedApiCount'], 1)
+        for openOrder in res['data']['openOrders']:
+            self.assertEqual(type(openOrder['baseCurrency']), type(''))
+            self.assertEqual(type(openOrder['quoteCurrency']), type(''))
+            self.assertEqual(type(openOrder['symbol']), type(''))
+            self.assertEqual(type(openOrder['orderId']), type(''))
+            self.assertEqual(type(openOrder['side']), type(''))
+            self.assertEqual(type(openOrder['originalAmount']), type(''))
+            self.assertEqual(type(openOrder['filledAmount']), type(''))
+            self.assertEqual(type(openOrder['remainingAmount']), type(''))
+            self.assertEqual(type(openOrder['originalPrice']), type(''))
+            self.assertEqual(type(openOrder['created']), type(1))
+            self.assertEqual(type(openOrder['lockedCurrency']), type(''))
+            self.assertEqual(type(openOrder['lockedAmount']), type(''))
 
     def test_getCandleIntervalCandidates_1(self):
         client = OneXAPI.Binance.Spot()
