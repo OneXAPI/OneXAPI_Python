@@ -995,13 +995,13 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
 
         res = client.fetchOrderbook('{"baseCurrency": "XrP", "quoteCurrency": "KrW"}')
-        bidPrice = int(res['bids'][0]['price'])
+        bidPrice = float(res['data']['bids'][0]['price'])
 
-        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "kRw", "price": ' + bidPrice + ', "baseAmount": 25, "amplifier": 0.96}')
-        orderId = res['orderId']
+        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "kRw", "price": ' + str(bidPrice) + ', "baseAmount": 25, "amplifier": 0.96}')
+        orderId = res['data']['orderId']
 
-        res = client.fetchOrderInfo('{"baseCurrency": "xRp", "quoteCurrency": "KrW", "orderId": ' + orderId + '}')
-        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "KrW", "orderId": ' + orderId + '}')
+        res = client.fetchOrderInfo('{"baseCurrency": "xRp", "quoteCurrency": "KrW", "orderId": "' + orderId + '"}')
+        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "KrW", "orderId": "' + orderId + '"}')
 
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
@@ -1028,13 +1028,13 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
 
         res = client.fetchOrderbook('{"baseCurrency": "XrP", "quoteCurrency": "KrW"}')
-        bidPrice = int(res['bids'][0]['price'])
+        bidPrice = float(res['data']['bids'][0]['price'])
 
-        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "kRw", "price": ' + bidPrice + ', "baseAmount": 25, "amplifier": 0.96}')
-        orderId = res['orderId']
+        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "kRw", "price": ' + str(bidPrice) + ', "baseAmount": 25, "amplifier": 0.96}')
+        orderId = res['data']['orderId']
 
         res = client.fetchOpenOrders('{}')
-        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "KrW", "orderId": ' + orderId + '}')
+        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "KrW", "orderId": "' + orderId + '"}')
 
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
@@ -1057,13 +1057,13 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
 
         res = client.fetchOrderbook('{"baseCurrency": "XrP", "quoteCurrency": "KrW"}')
-        bidPrice = int(res['bids'][0]['price'])
+        bidPrice = float(res['data']['bids'][0]['price'])
 
-        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "kRw", "price": ' + bidPrice + ', "baseAmount": 25, "amplifier": 0.96}')
-        orderId = res['orderId']
+        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "kRw", "price": ' + str(bidPrice) + ', "baseAmount": 25, "amplifier": 0.96}')
+        orderId = res['data']['orderId']
 
         res = client.fetchOpenOrders('{"baseCurrency": "xRp", "quoteCurrency": "KrW", "side": "buy"}')
-        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "KrW", "orderId": ' + orderId + '}')
+        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "KrW", "orderId": "' + orderId + '"}')
 
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)

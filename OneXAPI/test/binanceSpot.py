@@ -1090,13 +1090,13 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchOrderbook('{"baseCurrency": "XrP", "quoteCurrency": "UsdT"}')
-        bidPrice = int(res['bids'][0]['price'])
+        bidPrice = float(res['data']['bids'][0]['price'])
 
-        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "price": ' + bidPrice + ', "baseAmount": 25, "amplifier": 0.96}')
-        orderId = res['orderId']
+        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "price": ' + str(bidPrice) + ', "baseAmount": 25, "amplifier": 0.96}')
+        orderId = res['data']['orderId']
 
-        res = client.fetchOrderInfo('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": ' + orderId + '}')
-        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": ' + orderId + '}')
+        res = client.fetchOrderInfo('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": "' + orderId + '"}')
+        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": "' + orderId + '"}')
 
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 2)
@@ -1123,13 +1123,13 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchOrderbook('{"baseCurrency": "XrP", "quoteCurrency": "UsdT"}')
-        bidPrice = int(res['bids'][0]['price'])
+        bidPrice = float(res['data']['bids'][0]['price'])
 
-        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "price": ' + bidPrice + ', "baseAmount": 25, "amplifier": 0.96}')
-        orderId = res['orderId']
+        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "price": ' + str(bidPrice) + ', "baseAmount": 25, "amplifier": 0.96}')
+        orderId = res['data']['orderId']
 
         res = client.fetchOpenOrders('{}')
-        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": ' + orderId + '}')
+        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": "' + orderId + '"}')
 
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
@@ -1152,13 +1152,13 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchOrderbook('{"baseCurrency": "XrP", "quoteCurrency": "UsdT"}')
-        bidPrice = int(res['bids'][0]['price'])
+        bidPrice = float(res['data']['bids'][0]['price'])
 
-        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "price": ' + bidPrice + ', "baseAmount": 25, "amplifier": 0.96}')
-        orderId = res['orderId']
+        res = client.orderLimitBuy('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "price": ' + str(bidPrice) + ', "baseAmount": 25, "amplifier": 0.96}')
+        orderId = res['data']['orderId']
 
         res = client.fetchOpenOrders('{"baseCurrency": "XRP", "quoteCurrency": "uSDt", "side": "buy"}')
-        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": ' + orderId + '}')
+        client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": "' + orderId + '"}')
 
         self.assertEqual(res['success'], True)
         self.assertEqual(res['data']['requestedApiCount'], 1)
