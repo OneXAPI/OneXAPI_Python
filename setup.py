@@ -6,7 +6,12 @@ setup(
     description='For Beta Test',
     author='Libera Inc.',
     author_email='ceo@libera.com',
-    packages=['OneXAPI'],  # would be the same as name
+    url='https://github.com/OneXAPI',
+    packages=['OneXAPI',
+              'OneXAPI.exchanges',
+              'OneXAPI.instruments'
+              ],  # would be the same as name
     include_package_data=True,
     install_requires=[], #external packages acting as dependencies
+    scripts=[],
 )

@@ -1,10 +1,28 @@
 import ctypes
+import site
+import os, platform
 from typing import Union
 import OneXAPI.util
 import OneXAPI.exchanges.upbitSpot
 import OneXAPI.exchanges.binanceSpot
+import OneXAPI.exchanges.binanceFutures
 
-lib = ctypes.cdll.LoadLibrary('./libOneXAPI.so')
+if platform.system() == 'Linux' :               # Linux
+    if platform.architecture()[0] == '64bit' :
+        lib = ctypes.cdll.LoadLibrary(site.getsitepackages()[0] + '/OneXAPI_libs/libOneXAPI.so')
+    else :
+        print("OneXAPI currently supports 64bit linux only. Please contact development team.")
+        exit()
+elif platform.system() == 'Windows' :           # Windows
+    if platform.architecture()[0] == '64bit' :
+        lib = ctypes.cdll.LoadLibrary(site.getsitepackages()[0] + '/OneXAPI_libs/libOneXAPI.dll')
+    else :
+        print("OneXAPI currently supports 64bit windows only. Please contact development team.")
+        exit()
+elif platform.system() == 'Darwin' :            # Mac
+    print("OneXAPI currently supports linux and windows only. Please contact development team.")
+else :
+    print("We support Linux Only")
 
 lib.char_free.argtypes = [ctypes.c_void_p]
 lib.char_free.restype = None
@@ -34,3 +52,6 @@ class Upbit():
 class Binance():
     def Spot(request: Union[str, dict] = "{}"):
         return OneXAPI.exchanges.binanceSpot.client(request, lib)
+    
+    def Futures(request: Union[str, dict] = "{}"):
+        return OneXAPI.exchanges.binanceFutures.client(request, lib)
