@@ -140,36 +140,15 @@ class client:
     def has(self, request: Union[str, dict]) -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_has, self.lib.char_free, self.client)
 
-    # Wallet
-    def getWithdrawRoundingRule(self, request: Union[str, dict] = "{}") -> dict:
-        return OneXAPI.util.sendAPI(request, self.lib.futures_getWithdrawRoundingRule, self.lib.char_free, self.client)
-
-    def setWithdrawRoundingRule(self, request: Union[str, dict]) -> dict:
-        return OneXAPI.util.sendAPI(request, self.lib.futures_setWithdrawRoundingRule, self.lib.char_free, self.client)
-
-    def withdraw(self, request: Union[str, dict]) -> dict:
-        return OneXAPI.util.sendAPI(request, self.lib.futures_withdraw, self.lib.char_free, self.client)
-
-    def fetchAllCurrencies(self, request: Union[str, dict] = "{}") -> dict:
-        return OneXAPI.util.sendAPI(request, self.lib.futures_fetchAllCurrencies, self.lib.char_free, self.client)
-
+    # Wallet    
     def fetchBalance(self, request: Union[str, dict]) -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_fetchBalance, self.lib.char_free, self.client)
 
-    def fetchWalletStatus(self, request: Union[str, dict]) -> dict:
-        return OneXAPI.util.sendAPI(request, self.lib.futures_fetchWalletStatus, self.lib.char_free, self.client)
+    def fetchPositions(self, request: Union[str, dict]) -> dict:
+        return OneXAPI.util.sendAPI(request, self.lib.futures_fetchPositions, self.lib.char_free, self.client)
 
-    def fetchWithdrawHistory(self, request: Union[str, dict]) -> dict:
-        return OneXAPI.util.sendAPI(request, self.lib.futures_fetchWithdrawHistory, self.lib.char_free, self.client)
-
-    def fetchDepositHistory(self, request: Union[str, dict] ) -> dict:
-        return OneXAPI.util.sendAPI(request, self.lib.futures_fetchDepositHistory, self.lib.char_free, self.client)
-
-    def fetchDepositAddress(self, request: Union[str, dict]) -> dict:
-        return OneXAPI.util.sendAPI(request, self.lib.futures_fetchDepositAddress, self.lib.char_free, self.client)
-
-    def isDepositCompleted(self, request: Union[str, dict]) -> dict:
-        return OneXAPI.util.sendAPI(request, self.lib.futures_isDepositCompleted, self.lib.char_free, self.client)
+    def fetchFundingFeeIncomeHistory(self, request: Union[str, dict]) -> dict:
+        return OneXAPI.util.sendAPI(request, self.lib.futures_fetchFundingFeeIncomeHistory, self.lib.char_free, self.client)
 
     def subscribeBalance(self, request: Union[str, dict] = "{}") -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_subscribeBalance, self.lib.char_free, self.client)
@@ -180,7 +159,7 @@ class client:
     def isSubscribingBalance(self, request: Union[str, dict] = "{}") -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_isSubscribingBalance, self.lib.char_free, self.client)
 
-    # Trade
+    # Trade   
     def getOrderRoundingRule(self, request: Union[str, dict] = "{}") -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_getOrderRoundingRule, self.lib.char_free, self.client)
 
@@ -211,6 +190,18 @@ class client:
     def fetchTradingFee(self, request: Union[str, dict]) -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_fetchTradingFee, self.lib.char_free, self.client)
 
+    def fetchLeverage(self, request: Union[str, dict]) -> dict:
+        return OneXAPI.util.sendAPI(request, self.lib.futures_fetchLeverage, self.lib.char_free, self.client)
+
+    def changeLeverage(self, request: Union[str, dict]) -> dict:
+        return OneXAPI.util.sendAPI(request, self.lib.futures_changeLeverage, self.lib.char_free, self.client)
+
+    def fetchMarginType(self, request: Union[str, dict]) -> dict:
+        return OneXAPI.util.sendAPI(request, self.lib.futures_fetchMarginType, self.lib.char_free, self.client)
+
+    def changeMarginType(self, request: Union[str, dict]) -> dict:
+        return OneXAPI.util.sendAPI(request, self.lib.futures_changeMarginType, self.lib.char_free, self.client)
+
     # Market
     def getCandleIntervalCandidates(self, request: Union[str, dict] = "{}") -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_getCandleIntervalCandidates, self.lib.char_free, self.client)
@@ -218,6 +209,9 @@ class client:
     def fetchMarkets(self, request: Union[str, dict]) -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_fetchMarkets, self.lib.char_free, self.client)
 
+    def fetchMarketInfo(self, request: Union[str, dict]) -> dict:
+        return OneXAPI.util.sendAPI(request, self.lib.futures_fetchMarketInfo, self.lib.char_free, self.client)
+    
     def fetchTicker(self, request: Union[str, dict]) -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_fetchTicker, self.lib.char_free, self.client)
 
@@ -227,11 +221,20 @@ class client:
     def fetchCandleHistory(self, request: Union[str, dict]) -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_fetchCandleHistory, self.lib.char_free, self.client)
 
+    def getSubscribingMarketInfo(self, request: Union[str, dict] = "{}") -> dict:
+        return OneXAPI.util.sendAPI(request, self.lib.futures_getSubscribingMarketInfo, self.lib.char_free, self.client)
+
     def getSubscribingTickers(self, request: Union[str, dict] = "{}") -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_getSubscribingTickers, self.lib.char_free, self.client)
 
     def getSubscribingOrderbooks(self, request: Union[str, dict] = "{}") -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_getSubscribingOrderbooks, self.lib.char_free, self.client)
+
+    def subscribeMarketInfo(self, request: Union[str, dict]) -> dict:
+        return OneXAPI.util.sendAPI(request, self.lib.futures_subscribeMarketInfo, self.lib.char_free, self.client)
+
+    def unsubscribeMarketInfo(self, request: Union[str, dict]) -> dict:
+        return OneXAPI.util.sendAPI(request, self.lib.futures_unsubscribeMarketInfo, self.lib.char_free, self.client)
 
     def subscribeTicker(self, request: Union[str, dict]) -> dict:
         return OneXAPI.util.sendAPI(request, self.lib.futures_subscribeTicker, self.lib.char_free, self.client)
