@@ -1,6 +1,6 @@
 import ctypes
 import site
-import os, platform
+import platform
 from typing import Union
 import OneXAPI.util
 import OneXAPI.exchanges.upbitSpot
