@@ -90,85 +90,110 @@ class Testing(unittest.TestCase):
     def test_getConfig_1(self):
         client = OneXAPI.Binance.Spot()
         res = client.getConfig()
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"exchange":"Binance","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.binance.com","publicWebsocketEndpoint":"wss://stream.binance.com:9443/stream","privateWebsocketEndpoint":"wss://stream.binance.com:9443/ws","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"exchange":"Binance","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.binance.com","publicWebsocketEndpoint":"wss://stream.binance.com:9443/stream","privateWebsocketEndpoint":"wss://stream.binance.com:9443/ws","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
         self.assertEqual(res, answer)
     
     def test_getConfig_2(self):
         client = OneXAPI.Binance.Spot()
         res = client.getConfig("")
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"exchange":"Binance","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.binance.com","publicWebsocketEndpoint":"wss://stream.binance.com:9443/stream","privateWebsocketEndpoint":"wss://stream.binance.com:9443/ws","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"exchange":"Binance","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.binance.com","publicWebsocketEndpoint":"wss://stream.binance.com:9443/stream","privateWebsocketEndpoint":"wss://stream.binance.com:9443/ws","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
         self.assertEqual(res, answer)
 
     def test_getConfig_3(self):
         client = OneXAPI.Binance.Spot()
         res = client.getConfig("{}")
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"exchange":"Binance","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.binance.com","publicWebsocketEndpoint":"wss://stream.binance.com:9443/stream","privateWebsocketEndpoint":"wss://stream.binance.com:9443/ws","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"exchange":"Binance","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.binance.com","publicWebsocketEndpoint":"wss://stream.binance.com:9443/stream","privateWebsocketEndpoint":"wss://stream.binance.com:9443/ws","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
         self.assertEqual(res, answer)
 
     def test_getConfig_4(self):
         client = OneXAPI.Binance.Spot()
         res = client.getConfig("trashData123@@!%")
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"exchange":"Binance","instrument":"Spot","accessKey":"","secretKey":"","restEndpoint":"https://api.binance.com","publicWebsocketEndpoint":"wss://stream.binance.com:9443/stream","privateWebsocketEndpoint":"wss://stream.binance.com:9443/ws","restRequestTimeout":5000,"websocketConnectTimeout":5000,"websocketIdleTimeout":5000}}')
-        self.assertEqual(res, answer)
+
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_setConfig_1(self):
         client = OneXAPI.Binance.Spot()
         res = client.setConfig("")
-        answer = json.loads('{"success":false,"data":{"errorType":"JSON_PARSING_ERROR","errorMsg":""}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{}}')
         self.assertEqual(res, answer)
 
     def test_setConfig_2(self):
         client = OneXAPI.Binance.Spot()
         res = client.setConfig("{}")
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{}}')
         self.assertEqual(res, answer)
 
     def test_setConfig_3(self):
         client = OneXAPI.Binance.Spot()
         res = client.setConfig('{"accessKey":1.1354}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
         res = client.setConfig('{"secretKey":11354}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
         res = client.setConfig('{"restEndpoint":null}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
         res = client.setConfig('{"publicWebsocketEndpoint":true}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
         res = client.setConfig('{"privateWebsocketEndpoint":{}}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
         res = client.setConfig('{"restRequestTimeout":1.1354}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
         res = client.setConfig('{"websocketConnectTimeout":"ffaew"}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
         res = client.setConfig('{"websocketIdleTimeout":false}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE_TYPE')
 
     def test_setConfig_4(self):
         client = OneXAPI.Binance.Spot()
         res = client.setConfig('{"restEndpoint":"wrongEndpoint"}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
         res = client.setConfig('{"publicWebsocketEndpoint":"wrongEndpoint"}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
         res = client.setConfig('{"privateWebsocketEndpoint":"wrongEndpoint"}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
     def test_setConfig_5(self):
@@ -188,7 +213,9 @@ class Testing(unittest.TestCase):
             input = '{"' + item[0] + '":' + item[1] + '}'
             res = client.setConfig(input)
 
+            self.assertEqual(len(res), 3)
             self.assertEqual(res['success'], True)
+            self.assertEqual(res['requestedApiCount'], 0)
             answer = None
             if type(res['data'][item[0]]) == str:
                 answer = item[1].replace('"', "")
@@ -200,7 +227,9 @@ class Testing(unittest.TestCase):
         res = client.getConfig()
 
         for item in testList:
+            self.assertEqual(len(res), 3)
             self.assertEqual(res['success'], True)
+            self.assertEqual(res['requestedApiCount'], 0)
             answer = None
             if type(res['data'][item[0]]) == str:
                 answer = item[1].replace('"', "")
@@ -213,7 +242,7 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot()
 
         res = client.getEndpointCandidates()
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"restEndpoints":["https://api.binance.com","https://api1.binance.com","https://api2.binance.com","https://api3.binance.com","https://testnet.binance.vision/api"],"publicWebsocketEndpoints":["wss://stream.binance.com:9443/stream","wss://testnet.binance.vision/stream"],"privateWebsocketEndpoints":["wss://stream.binance.com:9443/ws","wss://testnet.binance.vision/ws"]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"restEndpoints":["https://api.binance.com","https://api1.binance.com","https://api2.binance.com","https://api3.binance.com","https://testnet.binance.vision/api"],"publicWebsocketEndpoints":["wss://stream.binance.com:9443/stream","wss://testnet.binance.vision/stream"],"privateWebsocketEndpoints":["wss://stream.binance.com:9443/ws","wss://testnet.binance.vision/ws"]}}')
 
         self.assertEqual(res, answer)
 
@@ -221,7 +250,7 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot()
 
         res = client.getEndpointCandidates("")
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"restEndpoints":["https://api.binance.com","https://api1.binance.com","https://api2.binance.com","https://api3.binance.com","https://testnet.binance.vision/api"],"publicWebsocketEndpoints":["wss://stream.binance.com:9443/stream","wss://testnet.binance.vision/stream"],"privateWebsocketEndpoints":["wss://stream.binance.com:9443/ws","wss://testnet.binance.vision/ws"]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"restEndpoints":["https://api.binance.com","https://api1.binance.com","https://api2.binance.com","https://api3.binance.com","https://testnet.binance.vision/api"],"publicWebsocketEndpoints":["wss://stream.binance.com:9443/stream","wss://testnet.binance.vision/stream"],"privateWebsocketEndpoints":["wss://stream.binance.com:9443/ws","wss://testnet.binance.vision/ws"]}}')
 
         self.assertEqual(res, answer)
 
@@ -229,7 +258,7 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot()
 
         res = client.getEndpointCandidates("{}")
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"restEndpoints":["https://api.binance.com","https://api1.binance.com","https://api2.binance.com","https://api3.binance.com","https://testnet.binance.vision/api"],"publicWebsocketEndpoints":["wss://stream.binance.com:9443/stream","wss://testnet.binance.vision/stream"],"privateWebsocketEndpoints":["wss://stream.binance.com:9443/ws","wss://testnet.binance.vision/ws"]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"restEndpoints":["https://api.binance.com","https://api1.binance.com","https://api2.binance.com","https://api3.binance.com","https://testnet.binance.vision/api"],"publicWebsocketEndpoints":["wss://stream.binance.com:9443/stream","wss://testnet.binance.vision/stream"],"privateWebsocketEndpoints":["wss://stream.binance.com:9443/ws","wss://testnet.binance.vision/ws"]}}')
 
         self.assertEqual(res, answer)
 
@@ -237,31 +266,50 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot()
 
         res = client.getEndpointCandidates("uNPaRsib1eM5g")
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"restEndpoints":["https://api.binance.com","https://api1.binance.com","https://api2.binance.com","https://api3.binance.com","https://testnet.binance.vision/api"],"publicWebsocketEndpoints":["wss://stream.binance.com:9443/stream","wss://testnet.binance.vision/stream"],"privateWebsocketEndpoints":["wss://stream.binance.com:9443/ws","wss://testnet.binance.vision/ws"]}}')
+        
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
 
-        self.assertEqual(res, answer)
+        self.assertEqual(res['data']['errorType'], "JSON_PARSING_ERROR")
 
     def test_has_1(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.has('')
-        self.assertEqual(res['success'], False)
-        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
-    def test_has_2(self):
-        client = OneXAPI.Binance.Spot()
-
-        res = client.has('{}')
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['requestedApiCount'], 0)
         answer = json.loads(hasMap)
 
         for key, value in answer.items():
             self.assertEqual(res['data'][key], value)
 
+        self.assertEqual(len(res['data']), 38)
+
+    def test_has_2(self):
+        client = OneXAPI.Binance.Spot()
+
+        res = client.has('{}')
+        
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['requestedApiCount'], 0)
+        answer = json.loads(hasMap)
+
+        for key, value in answer.items():
+            self.assertEqual(res['data'][key], value)
+
+        self.assertEqual(len(res['data']), 38)
+
     def test_has_3(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.has('el12nlgv@!')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_has_4(self):
@@ -271,36 +319,42 @@ class Testing(unittest.TestCase):
 
         for key, value in answer.items():
             res = client.has('{"api":"' + key + '"}')
+            self.assertEqual(len(res), 3)
             self.assertEqual(res['success'], True)
+            self.assertEqual(res['requestedApiCount'], 0)
             self.assertEqual(res['data'][key], value)
-            self.assertEqual(res['data']['requestedApiCount'], 0)
+            self.assertEqual(len(res['data']), 1)
 
     def test_has_5(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.has('{"api":"notExistApi"}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
     def test_getWithdrawRoundingRule_1(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.getWithdrawRoundingRule()
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"roundingRule":"round"}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"roundingRule":"round"}}')
         self.assertEqual(res, answer)
 
     def test_getWithdrawRoundingRule_2(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.getWithdrawRoundingRule('{}')
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"roundingRule":"round"}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"roundingRule":"round"}}')
         self.assertEqual(res, answer)
 
     def test_setWithdrawRoundingRule_1(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.setWithdrawRoundingRule('{"roundingRule":"wrongData"}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
     def test_setWithdrawRoundingRule_2(self):
@@ -308,9 +362,16 @@ class Testing(unittest.TestCase):
 
         for value in ['ceil', 'floor', 'round']:
             res = client.setWithdrawRoundingRule('{"roundingRule":"' + value +'"}')
+            self.assertEqual(len(res), 3)
             self.assertEqual(res['success'], True)
+            self.assertEqual(res['requestedApiCount'], 0)
             self.assertEqual(res['data']['roundingRule'], value)
-            self.assertEqual(res['data']['requestedApiCount'], 0)
+
+            res = client.getWithdrawRoundingRule('{"roundingRule":"' + value +'"}')
+            self.assertEqual(len(res), 3)
+            self.assertEqual(res['success'], True)
+            self.assertEqual(res['requestedApiCount'], 0)
+            self.assertEqual(res['data']['roundingRule'], value)
 
     def test_withdraw_1(self):
         client = OneXAPI.Binance.Spot()
@@ -319,7 +380,9 @@ class Testing(unittest.TestCase):
         
         for payload in testdict:
             res = client.withdraw(payload)
+            self.assertEqual(len(res), 3)
             self.assertEqual(res['success'], False)
+            self.assertEqual(res['requestedApiCount'], 0)
             self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_withdraw_2(self):
@@ -351,7 +414,7 @@ class Testing(unittest.TestCase):
         time.sleep(1)
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
         answer1 = 'https://api.binance.com/sapi/v1/capital/config/getall'
-        answer2 = 'https://api.binance.com/sapi/v1/capital/withdraw/apply?coin=ADA&network=ADA&address=wrongAddress&addressTag=wrongTag&amount=136.123436'
+        answer2 = 'https://api.binance.com/sapi/v1/capital/withdraw/apply?coin=ADA&network=ADA&address=wrongAddress&addressTag=wrongTag&amount=135.923436'
 
         if util.searchLog(nowTime, answer1) is False:
             self.fail(f'{answer1} not found')
@@ -363,65 +426,81 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchAllCurrencies()
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
+        self.assertGreater(len(res['data']['currencies']), 10)
 
         for currency, chainsDict in res['data']['currencies'].items():
             self.assertEqual(type(currency), type(""))
             self.assertEqual(type(chainsDict['chains']), type([]))
+            self.assertEqual(len(chainsDict), 1)
             
             self.assertNotEqual(len(chainsDict['chains']), 1)
 
             for chain in chainsDict['chains']:
                 self.assertEqual(type(chain['chain']), type(""))
                 self.assertEqual(type(chain['isDefault']), type(True))
+                self.assertEqual(len(chain), 2)
 
     def test_fetchAllCurrencies_2(self):
         time.sleep(1)
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchAllCurrencies("")
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
-        
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
+        self.assertGreater(len(res['data']['currencies']), 10)
+
         for currency, chainsDict in res['data']['currencies'].items():
             self.assertEqual(type(currency), type(""))
             self.assertEqual(type(chainsDict['chains']), type([]))
+            self.assertEqual(len(chainsDict), 1)
             
             self.assertNotEqual(len(chainsDict['chains']), 1)
 
             for chain in chainsDict['chains']:
                 self.assertEqual(type(chain['chain']), type(""))
                 self.assertEqual(type(chain['isDefault']), type(True))
+                self.assertEqual(len(chain), 2)
 
     def test_fetchBalance_1(self):
         time.sleep(1)
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
         
         res = client.fetchBalance('{"currencies":[]}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
         self.assertEqual(res['data']['fetchType'], "rest")
+        self.assertEqual(len(res['data']), 2)
         
         for currency, balance in res['data']['balance'].items():
             self.assertEqual(type(currency), type(""))
             self.assertEqual(type(balance["free"]), type(""))
             self.assertEqual(type(balance["locked"]), type(""))
+            self.assertEqual(len(balance), 2)
 
     def test_fetchBalance_2(self):
         time.sleep(1)
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
         
         res = client.fetchBalance('{"currencies":["bTc","xRP","Eth"], "zeroBalance": true}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
         self.assertEqual(res['data']['fetchType'], "rest")
+        self.assertEqual(len(res['data']), 2)
         self.assertEqual(len(res['data']['balance']), 3)
         
         for currency, balance in res['data']['balance'].items():
             self.assertEqual(type(currency), type(""))
             self.assertEqual(type(balance["free"]), type(""))
             self.assertEqual(type(balance["locked"]), type(""))
+            self.assertEqual(len(balance), 2)
 
     def test_fetchBalance_3(self):
         time.sleep(1)
@@ -429,15 +508,18 @@ class Testing(unittest.TestCase):
 
         client.subscribeBalance()
         res = client.fetchBalance('{"currencies":["bTc","xRP","Eth"], "zeroBalance": true}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 0)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['fetchType'], "websocket")
+        self.assertEqual(len(res['data']), 2)
         self.assertEqual(len(res['data']['balance']), 3)
         
         for currency, balance in res['data']['balance'].items():
             self.assertEqual(type(currency), type(""))
             self.assertEqual(type(balance["free"]), type(""))
             self.assertEqual(type(balance["locked"]), type(""))
+            self.assertEqual(len(balance), 2)
 
     def test_fetchBalance_4(self):
         time.sleep(1)
@@ -445,27 +527,30 @@ class Testing(unittest.TestCase):
 
         client.subscribeBalance()
         res = client.fetchBalance('{"currencies":["bTc","xRP","Eth"], "zeroBalance": true, "forceRestApi": true}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
         self.assertEqual(res['data']['fetchType'], "rest")
-        self.assertEqual(len(res['data']['balance']), 3)
+        self.assertEqual(len(res['data']), 2)
         
         for currency, balance in res['data']['balance'].items():
             self.assertEqual(type(currency), type(""))
             self.assertEqual(type(balance["free"]), type(""))
             self.assertEqual(type(balance["locked"]), type(""))
+            self.assertEqual(len(balance), 2)
 
     def test_fetchWalletStatus_1(self):
         time.sleep(1)
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
         
         res = client.fetchWalletStatus('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
-        self.assertNotEqual(len(res['data']['currencies']), 0)
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
+        self.assertGreaterEqual(len(res['data']['currencies']), 1)
 
         for currency, chains in res['data']['currencies'].items():
-            self.assertEqual(type(currency), type(""))
             self.assertEqual(type(chains["chains"]), type([]))
             
             if len(chains["chains"]) == 1:
@@ -477,6 +562,7 @@ class Testing(unittest.TestCase):
                 self.assertEqual(type(chain["chain"]), type(""))
                 self.assertEqual(type(chain["withdrawEnable"]), type(True))
                 self.assertEqual(type(chain["depositEnable"]), type(True))
+                self.assertEqual(len(chain), 3)
             
 
     def test_fetchWalletStatus_2(self):
@@ -484,8 +570,10 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
         
         res = client.fetchWalletStatus('{"currency":"bTc"}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
         self.assertEqual(len(res['data']['currencies']), 1)
 
         for currency, chains in res['data']['currencies'].items():
@@ -494,20 +582,25 @@ class Testing(unittest.TestCase):
             self.assertGreaterEqual(len(chains["chains"]), 1)
 
             for chain in chains['chains']:
+                self.assertEqual(type(chain['chain']), type(""))
+
                 if len(chains['chains']) == 1:
                     self.assertEqual(chain["chain"], "")
                 else:
                     self.assertNotEqual(chain["chain"], "")
+
                 self.assertEqual(type(chain["withdrawEnable"]), type(True))
                 self.assertEqual(type(chain["depositEnable"]), type(True))
+                self.assertEqual(len(chain), 3)
 
     def test_fetchWithdrawHistory_1(self):
         time.sleep(1)
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
         
         res = client.fetchWithdrawHistory('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
 
         for withdrawHistory in res['data']['withdrawals']:
             self.assertEqual(type(withdrawHistory["currency"]), type(""))
@@ -517,6 +610,7 @@ class Testing(unittest.TestCase):
             self.assertEqual(type(withdrawHistory["txid"]), type(""))
             self.assertEqual(type(withdrawHistory["status"]), type(""))
             self.assertEqual(type(withdrawHistory["created"]), type(1))
+            self.assertEqual(len(withdrawHistory), 7)
 
     def test_fetchWithdrawHistory_2(self):
         time.sleep(1)
@@ -540,9 +634,10 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
         
         res = client.fetchDepositHistory('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
-        self.assertNotEqual(len(res['data']['deposits']), 0)
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertNotEqual(len(res['data']['deposits']), 7)
 
         for deposit in res['data']['deposits']:
             self.assertEqual(type(deposit["currency"]), type(""))
@@ -575,7 +670,9 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
         
         res = client.fetchDepositAddress('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
     
     def test_fetchDepositAddress_2(self):
@@ -583,8 +680,11 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
         
         res = client.fetchDepositAddress('{"currency":"Btc","chain":"BsC"}')
+        
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
         self.assertEqual(len(res['data']['addresses']), 1)
 
         self.assertEqual(type(res['data']['addresses']['BTC']), type([]))
@@ -592,11 +692,21 @@ class Testing(unittest.TestCase):
         self.assertEqual(type(res['data']['addresses']['BTC'][0]['address']), type(''))
         self.assertEqual(type(res['data']['addresses']['BTC'][0]['tag']), type(''))
 
+        for currency, chainDict in res['data']['addresses'].items():
+            self.assertEqual(len(chainDict), 1)
+
+            for chain in chainDict:
+                self.assertEqual(len(chain), 3)
+        
+
+
     def test_isDepositCompleted_1(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.isDepositCompleted('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_isDepositCompleted_2(self):
@@ -616,7 +726,7 @@ class Testing(unittest.TestCase):
         if util.searchLog(nowTime, answer1) is False:
             self.fail(f'{answer1} not found')
 
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":1,"isDepositCompleted":false}}')
+        answer = json.loads('{"success":true,"requestedApiCount":1,"data":{"isDepositCompleted":false}}')
         self.assertEqual(res, answer)
 
 
@@ -637,7 +747,7 @@ class Testing(unittest.TestCase):
         if util.searchLog(nowTime, answer1) is False:
             self.fail(f'{answer1} not found')
 
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":1,"isDepositCompleted":false}}')
+        answer = json.loads('{"success":true,"requestedApiCount":1,"data":{"isDepositCompleted":false}}')
         self.assertEqual(res, answer)
 
     def test_subscribeBalance_1(self):
@@ -645,7 +755,7 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.subscribeBalance()
-        answer = json.loads('{"success":true,"data":{}}')
+        answer = json.loads('{"success":true,"requestedApiCount":2,"data":{}}')
         self.assertEqual(res, answer)
 
 
@@ -654,7 +764,7 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.subscribeBalance('')
-        answer = json.loads('{"success":true,"data":{}}')
+        answer = json.loads('{"success":true,"requestedApiCount":2,"data":{}}')
         self.assertEqual(res, answer)
 
     def test_subscribeBalance_3(self):
@@ -662,7 +772,7 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.subscribeBalance('{}')
-        answer = json.loads('{"success":true,"data":{}}')
+        answer = json.loads('{"success":true,"requestedApiCount":2,"data":{}}')
         self.assertEqual(res, answer)
 
     def test_subscribeBalance_4(self):
@@ -670,15 +780,17 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.subscribeBalance('Bqbqb@')
-        answer = json.loads('{"success":true,"data":{}}')
-        self.assertEqual(res, answer)
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_unsubscribeBalance_1(self):
         time.sleep(1)
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.unsubscribeBalance()
-        answer = json.loads('{"success":true,"data":{}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{}}')
         self.assertEqual(res, answer)
 
     def test_unsubscribeBalance_2(self):
@@ -686,7 +798,7 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.unsubscribeBalance('')
-        answer = json.loads('{"success":true,"data":{}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{}}')
         self.assertEqual(res, answer)
 
     def test_unsubscribeBalance_3(self):
@@ -695,7 +807,7 @@ class Testing(unittest.TestCase):
 
         client.subscribeBalance()
         res = client.unsubscribeBalance('{}')
-        answer = json.loads('{"success":true,"data":{}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{}}')
         self.assertEqual(res, answer)
 
     def test_unsubscribeBalance_4(self):
@@ -704,15 +816,17 @@ class Testing(unittest.TestCase):
 
         client.subscribeBalance()
         res = client.unsubscribeBalance('Bqbqb@')
-        answer = json.loads('{"success":true,"data":{}}')
-        self.assertEqual(res, answer)
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_isSubscribingBalance_1(self):
         time.sleep(1)
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.isSubscribingBalance()
-        answer = json.loads('{"success":true,"data":{"isSubscribing":false}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"isSubscribing":false}}')
 
         self.assertEqual(res, answer)
 
@@ -721,7 +835,7 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.isSubscribingBalance('')
-        answer = json.loads('{"success":true,"data":{"isSubscribing":false}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"isSubscribing":false}}')
 
         self.assertEqual(res, answer)
 
@@ -731,7 +845,7 @@ class Testing(unittest.TestCase):
 
         client.subscribeBalance()
         res = client.isSubscribingBalance('{}')
-        answer = json.loads('{"success":true,"data":{"isSubscribing":true}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"isSubscribing":true}}')
 
         self.assertEqual(res, answer)
 
@@ -742,21 +856,22 @@ class Testing(unittest.TestCase):
         client.subscribeBalance()
         client.unsubscribeBalance()
         res = client.isSubscribingBalance('Bqbqb@')
-        answer = json.loads('{"success":true,"data":{"isSubscribing":false}}')
-
-        self.assertEqual(res, answer)
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_getOrderRoundingRule_1(self):
         client = OneXAPI.Binance.Spot()
         res = client.getOrderRoundingRule()
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
 
         self.assertEqual(res, answer)
 
     def test_getOrderRoundingRule_2(self):
         client = OneXAPI.Binance.Spot()
         res = client.getOrderRoundingRule("")
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
 
         self.assertEqual(res, answer)
 
@@ -764,15 +879,17 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot()
 
         res = client.setOrderRoundingRule('{"limitBuyBaseAmount":"wrongData"}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'WRONG_VALUE')
 
     def test_setOrderRoundingRule_2(self):
         client = OneXAPI.Binance.Spot()
 
-        answer_ceil = json.loads('{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"ceil","limitBuyBaseAmount":"ceil","limitSellPrice":"ceil","limitSellBaseAmount":"ceil","marketBuyQuoteAmount":"ceil","marketSellBaseAmount":"ceil"}}')
-        answer_floor = json.loads('{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"floor","limitBuyBaseAmount":"floor","limitSellPrice":"floor","limitSellBaseAmount":"floor","marketBuyQuoteAmount":"floor","marketSellBaseAmount":"floor"}}')
-        answer_round = json.loads('{"success":true,"data":{"requestedApiCount":0,"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
+        answer_ceil = json.loads('{"success":true,"requestedApiCount":0,"data":{"limitBuyPrice":"ceil","limitBuyBaseAmount":"ceil","limitSellPrice":"ceil","limitSellBaseAmount":"ceil","marketBuyQuoteAmount":"ceil","marketSellBaseAmount":"ceil"}}')
+        answer_floor = json.loads('{"success":true,"requestedApiCount":0,"data":{"limitBuyPrice":"floor","limitBuyBaseAmount":"floor","limitSellPrice":"floor","limitSellBaseAmount":"floor","marketBuyQuoteAmount":"floor","marketSellBaseAmount":"floor"}}')
+        answer_round = json.loads('{"success":true,"requestedApiCount":0,"data":{"limitBuyPrice":"round","limitBuyBaseAmount":"round","limitSellPrice":"round","limitSellBaseAmount":"round","marketBuyQuoteAmount":"round","marketSellBaseAmount":"round"}}')
 
         keyList = ['limitBuyPrice', 'limitBuyBaseAmount', 'limitSellPrice', 'limitSellBaseAmount', 'marketBuyQuoteAmount', 'marketSellBaseAmount']
         valueList = ['ceil', 'floor', 'round']
@@ -782,6 +899,9 @@ class Testing(unittest.TestCase):
                 input = '{"' + key + '":"' + value + '"}'
                 client.setOrderRoundingRule(input)
             res = client.getOrderRoundingRule()
+            self.assertEqual(len(res), 3)
+            self.assertEqual(res['success'], True)
+            self.assertEqual(res['requestedApiCount'], 0)
             if(value == 'ceil'):
                 self.assertEqual(res, answer_ceil)
             elif(value == 'floor'):
@@ -793,7 +913,9 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot()
         
         res = client.orderLimitBuy('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_orderLimitBuy_2(self):
@@ -834,7 +956,9 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot()
         
         res = client.orderLimitSell('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_orderLimitSell_2(self):
@@ -866,7 +990,7 @@ class Testing(unittest.TestCase):
         time.sleep(1)
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"terminal","logLevel":"off"}}')
 
-        answer1 = 'https://api.binance.com/api/v3/order?symbol=BTCUSDT&side=SELL&type=LIMIT&timeInForce=IOC&quantity=35.13569&price=24387.72&newClientOrderId=testId'
+        answer1 = 'https://api.binance.com/api/v3/order?symbol=BTCUSDT&side=SELL&type=LIMIT&timeInForce=FOK&quantity=35.13569&price=24387.72&newClientOrderId=testId'
 
         if util.searchLog(nowTime, answer1) is False:
             self.fail(f'{answer1} not found')
@@ -875,7 +999,9 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot()
         
         res = client.orderMarketBuy('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_orderMarketBuy_2(self):
@@ -916,7 +1042,9 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot()
         
         res = client.orderMarketSell('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_orderMarketSell_2(self):
@@ -957,7 +1085,9 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot()
         
         res = client.orderCancel('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_orderCancel_2(self):
@@ -965,7 +1095,9 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.orderCancel('{"orderId":"testOrderId"}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_orderCancel_3(self):
@@ -1002,45 +1134,13 @@ class Testing(unittest.TestCase):
         if util.searchLog(nowTime, answer1) is False:
             self.fail(f'{answer1} not found')
 
-    def test_fetchTradingFee_1(self):
-        time.sleep(1)
-        client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
-        
-        res = client.fetchTradingFee('{}')
-        self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
-        self.assertEqual(type(res['data']['fees']), type([]))
-        self.assertNotEqual(len(res['data']['fees']), 0)
-        
-        for fee in res['data']['fees']:
-            self.assertEqual(type(fee['baseCurrency']), type(""))
-            self.assertEqual(type(fee['quoteCurrency']), type(""))
-            self.assertEqual(type(fee['symbol']), type(""))
-            self.assertEqual(type(fee['makerFee']), type(""))
-            self.assertEqual(type(fee['takerFee']), type(""))
-
-    def test_fetchTradingFee_2(self):
-        time.sleep(1)
-        client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
-        
-        res = client.fetchTradingFee('{"baseCurrency":"bTC","quoteCurrency":"UsdT"}')
-        self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
-        self.assertEqual(type(res['data']['fees']), type([]))
-        self.assertEqual(len(res['data']['fees']), 1)
-        
-        for fee in res['data']['fees']:
-            self.assertEqual(type(fee['baseCurrency']), type(""))
-            self.assertEqual(type(fee['quoteCurrency']), type(""))
-            self.assertEqual(type(fee['symbol']), type(""))
-            self.assertEqual(type(fee['makerFee']), type(""))
-            self.assertEqual(type(fee['takerFee']), type(""))
-
     def test_fetchOrderInfo_1(self):
         client = OneXAPI.Binance.Spot()
         
         res = client.fetchOrderInfo('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_fetchOrderInfo_2(self):
@@ -1048,7 +1148,9 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchOrderInfo('{"orderId":"testOrderId"}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_fetchOrderInfo_3(self):
@@ -1099,7 +1201,8 @@ class Testing(unittest.TestCase):
         client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": "' + orderId + '"}')
 
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 2)
+        self.assertEqual(res['requestedApiCount'], 2)
+        self.assertEqual(len(res['data']), 16)
         self.assertEqual(type(res['data']['baseCurrency']), type(''))
         self.assertEqual(type(res['data']['quoteCurrency']), type(''))
         self.assertEqual(type(res['data']['symbol']), type(''))
@@ -1132,7 +1235,10 @@ class Testing(unittest.TestCase):
         client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": "' + orderId + '"}')
 
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
+        self.assertGreater(len(res['data']['openOrders']), 0)
+
         for openOrder in res['data']['openOrders']:
             self.assertEqual(type(openOrder['baseCurrency']), type(''))
             self.assertEqual(type(openOrder['quoteCurrency']), type(''))
@@ -1146,6 +1252,7 @@ class Testing(unittest.TestCase):
             self.assertEqual(type(openOrder['created']), type(1))
             self.assertEqual(type(openOrder['lockedCurrency']), type(''))
             self.assertEqual(type(openOrder['lockedAmount']), type(''))
+            self.assertEqual(len(openOrder), 12)
 
     def test_fetchOpenOrders_2(self):
         time.sleep(1)
@@ -1161,7 +1268,10 @@ class Testing(unittest.TestCase):
         client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "UsdT", "orderId": "' + orderId + '"}')
 
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
+        self.assertGreater(len(res['data']['openOrders']), 0)
+
         for openOrder in res['data']['openOrders']:
             self.assertEqual(type(openOrder['baseCurrency']), type(''))
             self.assertEqual(type(openOrder['quoteCurrency']), type(''))
@@ -1175,12 +1285,53 @@ class Testing(unittest.TestCase):
             self.assertEqual(type(openOrder['created']), type(1))
             self.assertEqual(type(openOrder['lockedCurrency']), type(''))
             self.assertEqual(type(openOrder['lockedAmount']), type(''))
+            self.assertEqual(len(openOrder), 12)
+
+    def test_fetchTradingFee_1(self):
+        time.sleep(1)
+        client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
+        
+        res = client.fetchTradingFee('{}')
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(type(res['data']['fees']), type([]))
+        self.assertEqual(len(res['data']), 1)
+        self.assertGreater(len(res['data']['fees']), 0)
+        
+        for fee in res['data']['fees']:
+            self.assertEqual(type(fee['baseCurrency']), type(""))
+            self.assertEqual(type(fee['quoteCurrency']), type(""))
+            self.assertEqual(type(fee['symbol']), type(""))
+            self.assertEqual(type(fee['makerFee']), type(""))
+            self.assertEqual(type(fee['takerFee']), type(""))
+            self.assertEqual(len(fee), 5)
+
+    def test_fetchTradingFee_2(self):
+        time.sleep(1)
+        client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
+        
+        res = client.fetchTradingFee('{"baseCurrency":"bTC","quoteCurrency":"UsdT"}')
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], True)
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(type(res['data']['fees']), type([]))
+        self.assertEqual(len(res['data']), 1)
+        self.assertEqual(len(res['data']['fees']), 1)
+        
+        for fee in res['data']['fees']:
+            self.assertEqual(type(fee['baseCurrency']), type(""))
+            self.assertEqual(type(fee['quoteCurrency']), type(""))
+            self.assertEqual(type(fee['symbol']), type(""))
+            self.assertEqual(type(fee['makerFee']), type(""))
+            self.assertEqual(type(fee['takerFee']), type(""))
+            self.assertEqual(len(fee), 5)
 
     def test_getCandleIntervalCandidates_1(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.getCandleIntervalCandidates()
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"intervals":["12hour","15min","1day","1hour","1min","1month","1week","2hour","30min","3day","3min","4hour","5min","6hour","8hour"]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"intervals":["12hour","15min","1day","1hour","1min","1month","1week","2hour","30min","3day","3min","4hour","5min","6hour","8hour"]}}')
 
         self.assertEqual(res, answer)
 
@@ -1188,7 +1339,7 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot()
 
         res = client.getCandleIntervalCandidates('')
-        answer = json.loads('{"success":true,"data":{"requestedApiCount":0,"intervals":["12hour","15min","1day","1hour","1min","1month","1week","2hour","30min","3day","3min","4hour","5min","6hour","8hour"]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"intervals":["12hour","15min","1day","1hour","1min","1month","1week","2hour","30min","3day","3min","4hour","5min","6hour","8hour"]}}')
 
         self.assertEqual(res, answer)
 
@@ -1197,35 +1348,43 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchMarkets('{}')
-        
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
+        self.assertGreater(len(res['data']['markets']), 10)
+
         for market in res['data']['markets']:
             self.assertEqual(type(market['baseCurrency']), type(''))
             self.assertEqual(type(market['quoteCurrency']), type(''))
             self.assertEqual(type(market['symbol']), type(''))
+            self.assertEqual(len(market), 3)
 
     def test_fetchMarkets_2(self):
         time.sleep(1)
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchMarkets('{"baseCurrency":"bTC","quoteCurrency":"usDT"}')
-        
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
         self.assertEqual(len(res['data']['markets']), 1)
+
         for market in res['data']['markets']:
             self.assertEqual(type(market['baseCurrency']), type(''))
             self.assertEqual(type(market['quoteCurrency']), type(''))
             self.assertEqual(type(market['symbol']), type(''))
+            self.assertEqual(len(market), 3)
 
     def test_fetchTicker_1(self):
         time.sleep(1)
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchTicker('{}')
-
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_fetchTicker_2(self):
@@ -1233,9 +1392,9 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchTicker('{"baseCurrency":"bTc","quoteCurrency":"USdt"}')
-
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
         self.assertEqual(res['data']['baseCurrency'], 'BTC')
         self.assertEqual(res['data']['quoteCurrency'], 'USDT')
         self.assertEqual(res['data']['symbol'], 'BTCUSDT')
@@ -1247,6 +1406,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(type(res['data']['highPrice']), type(''))
         self.assertEqual(type(res['data']['baseVolume']), type(''))
         self.assertEqual(type(res['data']['quoteVolume']), type(''))
+        self.assertEqual(len(res['data']), 11)
 
     def test_fetchTicker_3(self):
         time.sleep(1)
@@ -1254,9 +1414,9 @@ class Testing(unittest.TestCase):
 
         client.subscribeTicker('{"market":[{"baseCurrency":"bTc","quoteCurrency":"USdt"}]}')
         res = client.fetchTicker('{"baseCurrency":"bTc","quoteCurrency":"USdt"}')
-
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 0)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['baseCurrency'], 'BTC')
         self.assertEqual(res['data']['quoteCurrency'], 'USDT')
         self.assertEqual(res['data']['symbol'], 'BTCUSDT')
@@ -1268,6 +1428,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(type(res['data']['highPrice']), type(''))
         self.assertEqual(type(res['data']['baseVolume']), type(''))
         self.assertEqual(type(res['data']['quoteVolume']), type(''))
+        self.assertEqual(len(res['data']), 11)
 
     def test_fetchTicker_4(self):
         time.sleep(1)
@@ -1275,9 +1436,9 @@ class Testing(unittest.TestCase):
 
         client.subscribeTicker('{"market":[{"baseCurrency":"bTc","quoteCurrency":"USdt"}]}')
         res = client.fetchTicker('{"baseCurrency":"bTc","quoteCurrency":"USdt","forceRestApi":true}')
-
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
         self.assertEqual(res['data']['baseCurrency'], 'BTC')
         self.assertEqual(res['data']['quoteCurrency'], 'USDT')
         self.assertEqual(res['data']['symbol'], 'BTCUSDT')
@@ -1289,14 +1450,16 @@ class Testing(unittest.TestCase):
         self.assertEqual(type(res['data']['highPrice']), type(''))
         self.assertEqual(type(res['data']['baseVolume']), type(''))
         self.assertEqual(type(res['data']['quoteVolume']), type(''))
+        self.assertEqual(len(res['data']), 11)
 
     def test_fetchOrderbook_1(self):
         time.sleep(1)
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchOrderbook('{}')
-
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_fetchOrderbook_2(self):
@@ -1304,22 +1467,25 @@ class Testing(unittest.TestCase):
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchOrderbook('{"baseCurrency":"bTc","quoteCurrency":"USdt"}')
-
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
         self.assertEqual(res['data']['baseCurrency'], 'BTC')
         self.assertEqual(res['data']['quoteCurrency'], 'USDT')
         self.assertEqual(res['data']['symbol'], 'BTCUSDT')
         self.assertEqual(res['data']['fetchType'], 'rest')
         self.assertEqual(type(res['data']['timestamp']), type(1234))
+        self.assertEqual(len(res['data']), 7)
         
         for bid in res['data']['bids']:
             self.assertEqual(type(bid['price']), type(''))
             self.assertEqual(type(bid['size']), type(''))
+            self.assertEqual(len(bid), 2)
         
         for ask in res['data']['asks']:
             self.assertEqual(type(ask['price']), type(''))
             self.assertEqual(type(ask['size']), type(''))
+            self.assertEqual(len(ask), 2)
 
     def test_fetchOrderbook_3(self):
         time.sleep(1)
@@ -1327,22 +1493,25 @@ class Testing(unittest.TestCase):
 
         client.subscribeOrderbook('{"market":[{"baseCurrency":"bTc","quoteCurrency":"USdt"}]}')
         res = client.fetchOrderbook('{"baseCurrency":"bTc","quoteCurrency":"USdt"}')
-
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 0)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['baseCurrency'], 'BTC')
         self.assertEqual(res['data']['quoteCurrency'], 'USDT')
         self.assertEqual(res['data']['symbol'], 'BTCUSDT')
         self.assertEqual(res['data']['fetchType'], 'websocket')
         self.assertEqual(type(res['data']['timestamp']), type(1234))
+        self.assertEqual(len(res['data']), 7)
         
         for bid in res['data']['bids']:
             self.assertEqual(type(bid['price']), type(''))
             self.assertEqual(type(bid['size']), type(''))
+            self.assertEqual(len(bid), 2)
         
         for ask in res['data']['asks']:
             self.assertEqual(type(ask['price']), type(''))
             self.assertEqual(type(ask['size']), type(''))
+            self.assertEqual(len(ask), 2)
 
     def test_fetchOrderbook_4(self):
         time.sleep(1)
@@ -1350,30 +1519,34 @@ class Testing(unittest.TestCase):
 
         client.subscribeOrderbook('{"market":[{"baseCurrency":"bTc","quoteCurrency":"USdt"}]}')
         res = client.fetchOrderbook('{"baseCurrency":"bTc","quoteCurrency":"USdt","forceRestApi":true}')
-
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
         self.assertEqual(res['data']['baseCurrency'], 'BTC')
         self.assertEqual(res['data']['quoteCurrency'], 'USDT')
         self.assertEqual(res['data']['symbol'], 'BTCUSDT')
         self.assertEqual(res['data']['fetchType'], 'rest')
         self.assertEqual(type(res['data']['timestamp']), type(1234))
+        self.assertEqual(len(res['data']), 7)
         
         for bid in res['data']['bids']:
             self.assertEqual(type(bid['price']), type(''))
             self.assertEqual(type(bid['size']), type(''))
+            self.assertEqual(len(bid), 2)
         
         for ask in res['data']['asks']:
             self.assertEqual(type(ask['price']), type(''))
             self.assertEqual(type(ask['size']), type(''))
+            self.assertEqual(len(ask), 2)
 
     def test_fetchCandleHistory_1(self):
         time.sleep(1)
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
 
         res = client.fetchCandleHistory('{"baseCurrency":"bTc","quoteCurrency":"uSdT"}')
-
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_fetchCandleHistory_2(self):
@@ -1382,12 +1555,14 @@ class Testing(unittest.TestCase):
         
         specificTime = int((datetime.today() - timedelta(hours=2)).timestamp())
         res = client.fetchCandleHistory('{"baseCurrency":"bTc","quoteCurrency":"uSdT","interval":"1min","startTime":' + str(specificTime) + '}')
-        
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(type(res['data']['requestedApiCount']), type(1))
+        self.assertEqual(type(res['requestedApiCount']), type(1))
         self.assertEqual(type(res['data']['baseCurrency']), type(''))
         self.assertEqual(type(res['data']['quoteCurrency']), type(''))
         self.assertEqual(type(res['data']['symbol']), type(''))
+        self.assertEqual(len(res['data']), 4)
+        self.assertGreater(len(res['data']['candles']), 50)
 
         for candle in res['data']['candles']:
             self.assertEqual(type(candle['timestamp']), type(1))
@@ -1397,19 +1572,22 @@ class Testing(unittest.TestCase):
             self.assertEqual(type(candle['lowPrice']), type(''))
             self.assertEqual(type(candle['baseVolume']), type(''))
             self.assertEqual(type(candle['quoteVolume']), type(''))
+            self.assertEqual(len(candle), 7)
             
-
     def test_fetchCandleHistory_3(self):
         time.sleep(1)
         client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
         
         res = client.fetchCandleHistory('{"baseCurrency":"bTc","quoteCurrency":"uSdT","interval":"1min","startTime":1656042045,"endTime":1656063182,"fetchInterval":900}')
         
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
-        self.assertEqual(type(res['data']['requestedApiCount']), type(1))
+        self.assertEqual(type(res['requestedApiCount']), type(1))
         self.assertEqual(type(res['data']['baseCurrency']), type(''))
         self.assertEqual(type(res['data']['quoteCurrency']), type(''))
         self.assertEqual(type(res['data']['symbol']), type(''))
+        self.assertEqual(len(res['data']), 4)
+        self.assertGreater(len(res['data']['candles']), 50)
 
         for candle in res['data']['candles']:
             self.assertEqual(type(candle['timestamp']), type(1))
@@ -1419,323 +1597,691 @@ class Testing(unittest.TestCase):
             self.assertEqual(type(candle['lowPrice']), type(''))
             self.assertEqual(type(candle['baseVolume']), type(''))
             self.assertEqual(type(candle['quoteVolume']), type(''))
+            self.assertEqual(len(candle), 7)
         
     def test_getSubscribingTickers_1(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.getSubscribingTickers()
-        answer = json.loads('{"success":true,"data":{"tickers":[]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[]}}')
         self.assertEqual(res, answer)
 
     def test_getSubscribingTickers_2(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.getSubscribingTickers('')
-        answer = json.loads('{"success":true,"data":{"tickers":[]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[]}}')
         self.assertEqual(res, answer)
 
     def test_getSubscribingTickers_3(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.getSubscribingTickers('{}')
-        answer = json.loads('{"success":true,"data":{"tickers":[]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[]}}')
         self.assertEqual(res, answer)
 
     def test_getSubscribingTickers_4(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.getSubscribingTickers('Bqbqb@')
-        answer = json.loads('{"success":true,"data":{"tickers":[]}}')
-        self.assertEqual(res, answer)
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_getSubscribingTickers_5(self):
         client = OneXAPI.Binance.Spot()
 
         client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"BTC"}]}')
         res = client.getSubscribingTickers()
-        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"ETHBTC"}]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"ETHBTC"}]}}')
         self.assertEqual(res, answer)
 
     def test_getSubscribingOrderbooks_1(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.getSubscribingOrderbooks()
-        answer = json.loads('{"success":true,"data":{"orderbooks":[]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[]}}')
         self.assertEqual(res, answer)
     
     def test_getSubscribingOrderbooks_2(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.getSubscribingOrderbooks('')
-        answer = json.loads('{"success":true,"data":{"orderbooks":[]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[]}}')
         self.assertEqual(res, answer)
 
     def test_getSubscribingOrderbooks_3(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.getSubscribingOrderbooks('{}')
-        answer = json.loads('{"success":true,"data":{"orderbooks":[]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[]}}')
         self.assertEqual(res, answer)
 
     def test_getSubscribingOrderbooks_4(self):
         client = OneXAPI.Binance.Spot()
 
         res = client.getSubscribingOrderbooks('Bqbqb@')
-        answer = json.loads('{"success":true,"data":{"orderbooks":[]}}')
-        self.assertEqual(res, answer)
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
     def test_getSubscribingOrderbooks_5(self):
+        self.maxDiff = None
+
         client = OneXAPI.Binance.Spot()
 
         client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"BTC"}]}')
         res = client.getSubscribingOrderbooks()
-        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"ETHBTC"}]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"BTC","symbol":"ETHBTC"}]}}')
         self.assertEqual(res, answer)
 
     def test_subscribeTicker_1(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.subscribeTicker('')
-        
+        res = client.subscribeTicker()
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
-        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_subscribeTicker_2(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.subscribeTicker('{}')
-        
+        res = client.subscribeTicker('')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_subscribeTicker_3(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.subscribeTicker('Bqbqb@')
-        
+        res = client.subscribeTicker('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
-        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_subscribeTicker_4(self):
         client = OneXAPI.Binance.Spot()
 
+        res = client.subscribeTicker('Bqbqb@')
+        
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
+
+    def test_subscribeTicker_5(self):
+
+        for i in range(0, 10):
+            client = OneXAPI.Binance.Spot()
+
+            res = client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"}]}')
+            answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"}],"subscribeFailed":[]}}')
+
+            self.assertEqual(res, answer)
+
+            res = client.getSubscribingTickers()
+            answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"}]}}')
+
+    def test_subscribeTicker_6(self):
+
+        client = OneXAPI.Binance.Spot()
         res = client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
-        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"subscribeFailed":[]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"subscribeFailed":[]}}')
 
         self.assertEqual(res, answer)
 
         res = client.getSubscribingTickers()
-        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
-
-        self.assertEqual(res, answer)
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
 
         res = client.subscribeTicker('{"market":[{"baseCurrency":"XRP","quoteCurrency":"USDT"}], "reconnect": true}')
-        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"XRP","quoteCurrency":"USDT","symbol":"XRPUSDT"}],"subscribeFailed":[]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"subscribed":[{"baseCurrency":"XRP","quoteCurrency":"USDT","symbol":"XRPUSDT"}],"subscribeFailed":[]}}')
 
         self.assertEqual(res, answer)
 
         res = client.getSubscribingTickers()
-        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"},{"baseCurrency":"XRP","quoteCurrency":"USDT","symbol":"XRPUSDT"}]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"},{"baseCurrency":"XRP","quoteCurrency":"USDT","symbol":"XRPUSDT"}]}}')
+
+    def test_subscribeTicker_7(self):
+
+        client = OneXAPI.Binance.Spot()
+        baseCurrencys = [
+            "BTC", "YFI", "PAXG", "ETH", "YFII", "MKR", "BIFI", "BNB", "AUTO", "BNX",
+            "QNT", "XMR", "BCH", "GNO", "KP3R", "AAVE", "QUICK", "COMP", "EGLD", "ILV",
+            "LTC", "ZEC", "DASH", "KSM", "GMX", "FARM", "SOL", "DCR", "ETC", "FTT",
+            "ALCX", "BTG", "MLN", "ENS", "WNXM", "AVAX", "NMR", "TRB", "SANTOS", "ZEN",
+            "ATOM", "AXS", "MOVR", "LPT", "AR", "BTCST", "WING", "NEO", "LINK", "PSG",
+            "REP", "DOT", "UNI", "CVX", "AUCTION", "UNFI", "CITY", "TORN", "ICP", "FIL"
+        ]
+
+        markets = []
+
+        for baseCurrency in baseCurrencys:
+            pair = dict()
+            pair['baseCurrency'] = baseCurrency
+            pair['quoteCurrency'] = 'USDT'
+            markets.append(pair)
+
+        payload = dict()
+        payload['market'] = markets
+
+        res = client.subscribeTicker(payload)
+        
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(len(res['data']), 2 )
+
+        self.assertGreater(len(res['data']['subscribed']), 50)
+        self.assertEqual(type(res['data']['subscribed']), type([]))
+        self.assertEqual(type(res['data']['subscribeFailed']), type([]))
+
+        subscribed = res['data']['subscribed']
+        subscribeFailed = res['data']['subscribeFailed']
+
+        for data in subscribed:
+            self.assertEqual(len(data), 3)
+
+        for data in subscribeFailed:
+            self.assertEqual(len(data), 3)
+
+        res = client.getSubscribingTickers()
+
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['requestedApiCount'], 0)
+
+        self.assertEqual(len(res['data']), 1)
+        self.assertEqual(len(res['data']['tickers']), len(subscribed))
+
+        for ticker in res['data']['tickers']:
+            self.assertEqual(len(ticker), 3)
+            symbol = ticker['symbol']
+            isFound = False
+
+            for subscribedTicker in subscribed:
+                if symbol == subscribedTicker['symbol']:
+                    isFound = True
+                    break
+            
+            if isFound is False:
+                self.assertFalse("Can't find subscribed symbol : " + symbol)
+
+            isFound = True
+            for failedTicker in subscribeFailed:
+                if symbol == failedTicker['symbol']:
+                    isFound = False
+                    break
+
+            if isFound is False:
+                self.assertFalse("find subscribeFailed symbol : " + symbol)
+
+    def test_subscribeTicker_8(self):
+
+        client = OneXAPI.Binance.Spot()
+        res = client.subscribeTicker('{"market":[{"baseCurrency":"HYUNKYU","quoteCurrency":"USDT"}]}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"subscribed":[],"subscribeFailed":[{"baseCurrency":"HYUNKYU","quoteCurrency":"USDT","symbol":"HYUNKYUUSDT"}]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[]}}')
+
+        self.assertEqual(res, answer)
+
+    def test_subscribeTicker_9(self):
+
+        client = OneXAPI.Binance.Spot()
+        res = client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"subscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.subscribeTicker('{"market":[],"reconnect":true}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"subscribed":[],"subscribeFailed":[]}}')
 
         self.assertEqual(res, answer)
 
     def test_unsubscribeTicker_1(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.unsubscribeTicker('')
-        
+        res = client.unsubscribeTicker()
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
-        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_unsubscribeTicker_2(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.unsubscribeTicker('{}')
+        res = client.unsubscribeTicker('')
         
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_unsubscribeTicker_3(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.unsubscribeTicker('Bqbqb@')
+        res = client.unsubscribeTicker('{}')
         
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
-        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_unsubscribeTicker_4(self):
         client = OneXAPI.Binance.Spot()
 
-        client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
-        res = client.unsubscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
-        answer = json.loads('{"success":true,"data":{"unsubscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"unsubscribeFailed":[]}}')
-
-        self.assertEqual(res, answer)
-
+        res = client.unsubscribeTicker('Bqbqb@')
+        
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
+        
     def test_unsubscribeTicker_5(self):
         client = OneXAPI.Binance.Spot()
 
         client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
-        res = client.unsubscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}],"reconnect":true}')
-        answer = json.loads('{"success":true,"data":{"unsubscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"unsubscribeFailed":[]}}')
+        res = client.unsubscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"}]}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"unsubscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"}],"unsubscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
+
+    def test_unsubscribeTicker_6(self):
+        client = OneXAPI.Binance.Spot()
+
+        client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
+        res = client.unsubscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"}],"reconnect":true}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"unsubscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"}],"unsubscribeFailed":[]}}')
+        
+        self.assertEqual(res, answer)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
+
+        self.assertEqual(res, answer)
+
+    def test_unsubscribeTicker_7(self):
+        client = OneXAPI.Binance.Spot()
+        baseCurrencys = [
+            "BTC", "YFI", "PAXG", "ETH", "YFII", "MKR", "BIFI", "BNB", "AUTO", "BNX",
+            "QNT", "XMR", "BCH", "GNO", "KP3R", "AAVE", "QUICK", "COMP", "EGLD", "ILV",
+            "LTC", "ZEC", "DASH", "KSM", "GMX", "FARM", "SOL", "DCR", "ETC", "FTT",
+            "ALCX", "BTG", "MLN", "ENS", "WNXM", "AVAX", "NMR", "TRB", "SANTOS", "ZEN",
+            "ATOM", "AXS", "MOVR", "LPT", "AR", "BTCST", "WING", "NEO", "LINK", "PSG",
+            "REP", "DOT", "UNI", "CVX", "AUCTION", "UNFI", "CITY", "TORN", "ICP", "FIL"
+        ]
+        markets = []
+
+        for baseCurrency in baseCurrencys:
+            pair = dict()
+            pair['baseCurrency'] = baseCurrency
+            pair['quoteCurrency'] = 'USDT'
+            markets.append(pair)
+
+        payload = dict()
+        payload['market'] = markets
+
+        res = client.subscribeTicker(payload)
+
+        self.assertGreater(len(res['data']['subscribed']), 50)
+
+        res = client.unsubscribeTicker(payload)
+
+        self.assertEqual(len(res['data']), 2)
+        self.assertEqual(type(res['data']['unsubscribed']), type([]))
+        self.assertEqual(type(res['data']['unsubscribeFailed']), type([]))
+
+        for unsubscribed in res['data']['unsubscribed']:
+            self.assertEqual(len(unsubscribed), 3)
+
+        for unsubscribeFailed in res['data']['unsubscribeFailed']:
+            self.assertEqual(len(unsubscribeFailed), 3)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[]}}')
+
+        self.assertEqual(res, answer)
+
+    def test_unsubscribeTicker_8(self):
+        client = OneXAPI.Binance.Spot()
+        res = client.unsubscribeTicker('{"market":[{"baseCurrency":"HYUNKYU","quoteCurrency":"USDT"}]}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"unsubscribed":[],"unsubscribeFailed":[{"baseCurrency":"HYUNKYU","quoteCurrency":"USDT","symbol":"HYUNKYUUSDT"}]}}')
+
+        self.assertEqual(res, answer)
+
+    def test_unsubscribeTicker_9(self):
+        client = OneXAPI.Binance.Spot()
+        res = client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"subscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.getSubscribingTickers()
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.unsubscribeTicker('{"market":[],"reconnect":true}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"unsubscribed":[],"unsubscribeFailed":[]}}')
 
         self.assertEqual(res, answer)
 
     def test_subscribeOrderbook_1(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.subscribeOrderbook('')
-        
+        res = client.subscribeOrderbook()
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
-        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_subscribeOrderbook_2(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.subscribeOrderbook('{}')
-        
+        res = client.subscribeOrderbook('')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_subscribeOrderbook_3(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.subscribeOrderbook('Bqbqb@')
-        
+        res = client.subscribeOrderbook('{}')
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
-        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_subscribeOrderbook_4(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
-        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"subscribeFailed":[]}}')
+        res = client.subscribeOrderbook('Bqbqb@')
+        
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
 
-        self.assertDictEqual(res, answer)
+    def test_subscribeOrderbook_5(self):
+
+        for i in range(0, 10):
+            client = OneXAPI.Binance.Spot()
+
+            res = client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"}]}')
+            answer = json.loads('{"success":true,"requestedApiCount":1,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"}],"subscribeFailed":[]}}')
+
+            self.assertEqual(res, answer)
+
+            res = client.getSubscribingOrderbooks()
+            answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"}]}}')
+
+    def test_subscribeOrderbook_6(self):
+
+        client = OneXAPI.Binance.Spot()
+        res = client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
+        answer = json.loads('{"success":true,"requestedApiCount":2,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"subscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
 
         res = client.getSubscribingOrderbooks()
-        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
 
         res = client.subscribeOrderbook('{"market":[{"baseCurrency":"XRP","quoteCurrency":"USDT"}], "reconnect": true}')
-        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"XRP","quoteCurrency":"USDT","symbol":"XRPUSDT"}],"subscribeFailed":[]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"subscribed":[{"baseCurrency":"XRP","quoteCurrency":"USDT","symbol":"XRPUSDT"}],"subscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
 
         res = client.getSubscribingOrderbooks()
-        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"},{"baseCurrency":"XRP","quoteCurrency":"USDT","symbol":"XRPUSDT"}]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"},{"baseCurrency":"XRP","quoteCurrency":"USDT","symbol":"XRPUSDT"}]}}')
+
+    def test_subscribeOrderbook_7(self):
+
+        client = OneXAPI.Binance.Spot()
+        baseCurrencys = [
+            "BTC", "YFI", "PAXG", "ETH", "YFII", "MKR", "BIFI", "BNB", "AUTO", "BNX",
+            "QNT", "XMR", "BCH", "GNO", "KP3R", "AAVE", "QUICK", "COMP", "EGLD", "ILV",
+            "LTC", "ZEC", "DASH", "KSM", "GMX", "FARM", "SOL", "DCR", "ETC", "FTT",
+            "ALCX", "BTG", "MLN", "ENS", "WNXM", "AVAX", "NMR", "TRB", "SANTOS", "ZEN",
+            "ATOM", "AXS", "MOVR", "LPT", "AR", "BTCST", "WING", "NEO", "LINK", "PSG",
+            "REP", "DOT", "UNI", "CVX", "AUCTION", "UNFI", "CITY", "TORN", "ICP", "FIL"
+        ]
+        markets = []
+
+        for baseCurrency in baseCurrencys:
+            pair = dict()
+            pair['baseCurrency'] = baseCurrency
+            pair['quoteCurrency'] = 'USDT'
+            markets.append(pair)
+
+        payload = dict()
+        payload['market'] = markets
+
+        res = client.subscribeOrderbook(payload)
+        
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['requestedApiCount'], len(baseCurrencys))
+        self.assertEqual(len(res['data']), 2 )
+
+        self.assertGreater(len(res['data']['subscribed']), 50)
+
+        self.assertEqual(type(res['data']['subscribed']), type([]))
+        self.assertEqual(type(res['data']['subscribeFailed']), type([]))
+
+        subscribed = res['data']['subscribed']
+        subscribeFailed = res['data']['subscribeFailed']
+
+        for data in subscribed:
+            self.assertEqual(len(data), 3)
+
+        for data in subscribeFailed:
+            self.assertEqual(len(data), 3)
+
+        res = client.getSubscribingOrderbooks()
+
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['requestedApiCount'], 0)
+
+        self.assertEqual(len(res['data']), 1)
+        self.assertEqual(len(res['data']['orderbooks']), len(subscribed))
+
+        for Orderbook in res['data']['orderbooks']:
+            self.assertEqual(len(Orderbook), 3)
+            symbol = Orderbook['symbol']
+            isFound = False
+
+            for subscribedOrderbook in subscribed:
+                if symbol == subscribedOrderbook['symbol']:
+                    isFound = True
+                    break
+            
+            if isFound is False:
+                self.assertFalse("Can't find subscribed symbol : " + symbol)
+
+            isFound = True
+            for failedOrderbook in subscribeFailed:
+                if symbol == failedOrderbook['symbol']:
+                    isFound = False
+                    break
+
+            if isFound is False:
+                self.assertFalse("find subscribeFailed symbol : " + symbol)
+
+    def test_subscribeOrderbook_8(self):
+
+        client = OneXAPI.Binance.Spot()
+        res = client.subscribeOrderbook('{"market":[{"baseCurrency":"HYUNKYU","quoteCurrency":"USDT"}]}')
+        answer = json.loads('{"success":true,"requestedApiCount":1,"data":{"subscribed":[],"subscribeFailed":[{"baseCurrency":"HYUNKYU","quoteCurrency":"USDT","symbol":"HYUNKYUUSDT"}]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.getSubscribingOrderbooks()
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[]}}')
+
+        self.assertEqual(res, answer)
+
+    def test_subscribeOrderbook_9(self):
+
+        client = OneXAPI.Binance.Spot()
+        res = client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
+        answer = json.loads('{"success":true,"requestedApiCount":2,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"subscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.getSubscribingOrderbooks()
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.subscribeOrderbook('{"market":[],"reconnect":true}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"subscribed":[],"subscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
 
     def test_unsubscribeOrderbook_1(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.unsubscribeOrderbook('')
-
+        res = client.unsubscribeOrderbook()
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
-        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_unsubscribeOrderbook_2(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.unsubscribeOrderbook('{}')
-
+        res = client.unsubscribeOrderbook('')
+        
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_unsubscribeOrderbook_3(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.unsubscribeOrderbook('Bqbqb@')
-
+        res = client.unsubscribeOrderbook('{}')
+        
+        self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], False)
-        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'NOT_ENOUGH_PARAM')
 
     def test_unsubscribeOrderbook_4(self):
         client = OneXAPI.Binance.Spot()
 
-        client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
-        res = client.unsubscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
-        answer = json.loads('{"success":true,"data":{"unsubscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"unsubscribeFailed":[]}}')
-
-        self.assertDictEqual(res, answer)
-
+        res = client.unsubscribeOrderbook('Bqbqb@')
+        
+        self.assertEqual(len(res), 3)
+        self.assertEqual(res['success'], False)
+        self.assertEqual(res['requestedApiCount'], 0)
+        self.assertEqual(res['data']['errorType'], 'JSON_PARSING_ERROR')
+        
     def test_unsubscribeOrderbook_5(self):
         client = OneXAPI.Binance.Spot()
 
         client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
-        res = client.unsubscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}],"reconnect":true}')
-        answer = json.loads('{"success":true,"data":{"unsubscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"unsubscribeFailed":[]}}')
+        res = client.unsubscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"}]}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"unsubscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"}],"unsubscribeFailed":[]}}')
 
-        self.assertDictEqual(res, answer)
+        self.assertEqual(res, answer)
 
-    def test_websocketFullTest(self):
+        res = client.getSubscribingOrderbooks()
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
+
+    def test_unsubscribeOrderbook_6(self):
         client = OneXAPI.Binance.Spot()
 
-        res = client.subscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
-        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"subscribeFailed":[]}}')
-
-        self.assertDictEqual(res, answer)
-
-        res = client.getSubscribingTickers()
-        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
-
-        self.assertDictEqual(res, answer)
-
-        res = client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}],"reconnect":true}')
-        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"subscribeFailed":[]}}')
-
-        self.assertDictEqual(res, answer)
-
-        res = client.getSubscribingTickers()
-        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
-
-        self.assertDictEqual(res, answer)
+        client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
+        res = client.unsubscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"}],"reconnect":true}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"unsubscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"}],"unsubscribeFailed":[]}}')
+        
+        self.assertEqual(res, answer)
 
         res = client.getSubscribingOrderbooks()
-        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
 
-        self.assertDictEqual(res, answer)
+        self.assertEqual(res, answer)
 
-        res = client.unsubscribeTicker('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"}],"reconnect":true}')
-        answer = json.loads('{"success":true,"data":{"unsubscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"}],"unsubscribeFailed":[]}}')
+    def test_unsubscribeOrderbook_7(self):
+        client = OneXAPI.Binance.Spot()
+        baseCurrencys = [
+            "BTC", "YFI", "PAXG", "ETH", "YFII", "MKR", "BIFI", "BNB", "AUTO", "BNX",
+            "QNT", "XMR", "BCH", "GNO", "KP3R", "AAVE", "QUICK", "COMP", "EGLD", "ILV",
+            "LTC", "ZEC", "DASH", "KSM", "GMX", "FARM", "SOL", "DCR", "ETC", "FTT",
+            "ALCX", "BTG", "MLN", "ENS", "WNXM", "AVAX", "NMR", "TRB", "SANTOS", "ZEN",
+            "ATOM", "AXS", "MOVR", "LPT", "AR", "BTCST", "WING", "NEO", "LINK", "PSG",
+            "REP", "DOT", "UNI", "CVX", "AUCTION", "UNFI", "CITY", "TORN", "ICP", "FIL"
+        ]
+        markets = []
 
-        self.assertDictEqual(res, answer)
+        for baseCurrency in baseCurrencys:
+            pair = dict()
+            pair['baseCurrency'] = baseCurrency
+            pair['quoteCurrency'] = 'USDT'
+            markets.append(pair)
 
-        res = client.getSubscribingTickers()
-        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
+        payload = dict()
+        payload['market'] = markets
 
-        self.assertDictEqual(res, answer)
+        res = client.subscribeOrderbook(payload)
 
-        res = client.getSubscribingOrderbooks()
-        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
+        self.assertGreater(len(res['data']['subscribed']), 50)
 
-        self.assertDictEqual(res, answer)
+        res = client.unsubscribeOrderbook(payload)
 
-        res = client.unsubscribeOrderbook('{"market":[{"baseCurrency":"ETH","quoteCurrency":"USDT"}],"reconnect":true}')
-        answer = json.loads('{"success":true,"data":{"unsubscribed":[{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"unsubscribeFailed":[]}}')
+        self.assertEqual(len(res['data']), 2)
+        self.assertEqual(type(res['data']['unsubscribed']), type([]))
+        self.assertEqual(type(res['data']['unsubscribeFailed']), type([]))
 
-        self.assertDictEqual(res, answer)
+        for unsubscribed in res['data']['unsubscribed']:
+            self.assertEqual(len(unsubscribed), 3)
 
-        res = client.getSubscribingTickers()
-        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
-
-        self.assertDictEqual(res, answer)
-
-        res = client.getSubscribingOrderbooks()
-        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"}]}}')
-
-        self.assertDictEqual(res, answer)
-
-        res = client.subscribeOrderbook('{"market":[{"baseCurrency":"XRP","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}],"reconnect":true}')
-        answer = json.loads('{"success":true,"data":{"subscribed":[{"baseCurrency":"XRP","quoteCurrency":"USDT","symbol":"XRPUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"subscribeFailed":[]}}')
-
-        self.assertDictEqual(res, answer)
-
-        res = client.getSubscribingTickers()
-        answer = json.loads('{"success":true,"data":{"tickers":[{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
-
-        self.assertDictEqual(res, answer)
+        for unsubscribeFailed in res['data']['unsubscribeFailed']:
+            self.assertEqual(len(unsubscribeFailed), 3)
 
         res = client.getSubscribingOrderbooks()
-        answer = json.loads('{"success":true,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"XRP","quoteCurrency":"USDT","symbol":"XRPUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[]}}')
 
+        self.assertEqual(res, answer)
 
+    def test_unsubscribeOrderbook_8(self):
+        client = OneXAPI.Binance.Spot()
+        res = client.unsubscribeOrderbook('{"market":[{"baseCurrency":"HYUNKYU","quoteCurrency":"USDT"}]}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"unsubscribed":[],"unsubscribeFailed":[{"baseCurrency":"HYUNKYU","quoteCurrency":"USDT","symbol":"HYUNKYUUSDT"}]}}')
+
+        self.assertEqual(res, answer)
+
+    def test_unsubscribeOrderbook_9(self):
+        client = OneXAPI.Binance.Spot()
+        res = client.subscribeOrderbook('{"market":[{"baseCurrency":"BTC","quoteCurrency":"USDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT"}]}')
+        answer = json.loads('{"success":true,"requestedApiCount":2,"data":{"subscribed":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}],"subscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.getSubscribingOrderbooks()
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"orderbooks":[{"baseCurrency":"BTC","quoteCurrency":"USDT","symbol":"BTCUSDT"},{"baseCurrency":"ETH","quoteCurrency":"USDT","symbol":"ETHUSDT"}]}}')
+
+        self.assertEqual(res, answer)
+
+        res = client.unsubscribeOrderbook('{"market":[],"reconnect":true}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"unsubscribed":[],"unsubscribeFailed":[]}}')
+
+        self.assertEqual(res, answer)
 
 if __name__ == "__main__":
     import os
