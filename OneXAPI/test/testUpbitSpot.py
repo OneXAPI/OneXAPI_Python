@@ -493,11 +493,13 @@ class Testing(unittest.TestCase):
         self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
         self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
         self.assertGreater(len(res['data']['currencies']), 0)
 
         for currency, currencyDict in res['data']['currencies'].items():
             self.assertEqual(type(currency), type(""))
             self.assertEqual(type(currencyDict["chains"]), type([]))
+            self.assertEqual(len(currencyDict), 1)
             self.assertEqual(len(currencyDict["chains"]), 1)
 
             for chainDict in currencyDict["chains"]:
@@ -514,11 +516,13 @@ class Testing(unittest.TestCase):
         self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
         self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
         self.assertEqual(len(res['data']['currencies']), 1)
 
         for currency, currencyDict in res['data']['currencies'].items():
             self.assertEqual(type(currency), type(""))
             self.assertEqual(type(currencyDict["chains"]), type([]))
+            self.assertEqual(len(currencyDict), 1)
             self.assertEqual(len(currencyDict["chains"]), 1)
 
             for chainDict in currencyDict["chains"]:
@@ -535,6 +539,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
         self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
 
         for withdrawHistory in res['data']['withdrawals']:
             self.assertEqual(type(withdrawHistory["currency"]), type(""))
@@ -609,7 +614,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(res['success'], True)
         self.assertEqual(res['requestedApiCount'], 1)
         self.assertEqual(len(res['data']), 1)
-        self.assertGreater(len(res['data']['addresses']), 3)
+        self.assertGreater(len(res['data']['addresses']), 0)
 
         for currency, depositDict in res['data']['addresses'].items():
             self.assertEqual(type(currency), type(""))
@@ -636,6 +641,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(type(res['data']['addresses']['BTC'][0]["tag"]), type(""))
 
         self.assertEqual(len(res['data']), 1)
+        self.assertEqual(len(res['data']['addresses']), 1)
         self.assertEqual(len(res['data']['addresses']['BTC']), 1)
 
         for currency, depositDict in res['data']['addresses'].items():
@@ -1163,6 +1169,8 @@ class Testing(unittest.TestCase):
         self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
         self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
+        self.assertGreater(len(res['data']['openOrders']), 0)
         for openOrder in res['data']['openOrders']:
             self.assertEqual(type(openOrder['baseCurrency']), type(''))
             self.assertEqual(type(openOrder['quoteCurrency']), type(''))
@@ -1192,7 +1200,9 @@ class Testing(unittest.TestCase):
         client.orderCancel('{"baseCurrency": "xRp", "quoteCurrency": "KrW", "orderId": "' + orderId + '"}')
 
         self.assertEqual(res['success'], True)
-        self.assertEqual(res['data']['requestedApiCount'], 1)
+        self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
+        self.assertGreater(len(res['data']['openOrders']), 0)
         for openOrder in res['data']['openOrders']:
             self.assertEqual(type(openOrder['baseCurrency']), type(''))
             self.assertEqual(type(openOrder['quoteCurrency']), type(''))
@@ -1250,6 +1260,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
         self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
         self.assertGreater(len(res['data']['markets']), 10)
 
         for market in res['data']['markets']:
@@ -1267,6 +1278,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(len(res), 3)
         self.assertEqual(res['success'], True)
         self.assertEqual(res['requestedApiCount'], 1)
+        self.assertEqual(len(res['data']), 1)
         self.assertEqual(len(res['data']['markets']), 1)
 
         for market in res['data']['markets']:
