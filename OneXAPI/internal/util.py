@@ -1,5 +1,24 @@
 import ctypes, json
+import site
+import platform
 from typing import Callable, Union
+
+if platform.system() == 'Linux' :               # Linux
+    if platform.architecture()[0] == '64bit' :
+        lib = ctypes.cdll.LoadLibrary(site.getsitepackages()[0] + '/OneXAPI_libs/libOneXAPI.so')
+    else :
+        print("OneXAPI currently supports 64bit linux only. Please contact development team.")
+        exit()
+elif platform.system() == 'Windows' :           # Windows
+    if platform.architecture()[0] == '64bit' :
+        lib = ctypes.cdll.LoadLibrary(site.getsitepackages()[0] + '/OneXAPI_libs/libOneXAPI.dll')
+    else :
+        print("OneXAPI currently supports 64bit windows only. Please contact development team.")
+        exit()
+elif platform.system() == 'Darwin' :            # Mac
+    print("OneXAPI currently supports linux and windows only. Please contact development team.")
+else :
+    print("We support Linux Only")
 
 def createObject(request: Union[str, dict], create_func: Callable):
     if type(request) is dict:

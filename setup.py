@@ -8,8 +8,13 @@ setup(
     author_email='ceo@libera.com',
     url='https://github.com/OneXAPI',
     packages=['OneXAPI',
-              'OneXAPI.exchanges',
-              'OneXAPI.instruments'
+              'OneXAPI.Upbit',
+              'OneXAPI.Upbit.Indonesia',
+              'OneXAPI.Upbit.Singapore',
+              'OneXAPI.Upbit.Thailand',
+              'OneXAPI.Binance',
+              'OneXAPI.internal',
+              'OneXAPI.internal.instruments'
               ],  # would be the same as name
     include_package_data=True,
     install_requires=[], #external packages acting as dependencies
