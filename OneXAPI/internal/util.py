@@ -7,7 +7,7 @@ from typing import Callable, Union
 from tqdm import tqdm
 
 base_path = site.getsitepackages()[0]
-file_name = 'libOneXAPI'
+file_name = 'libOneXAPI2'
 
 def file_write(file, data):
    file.write(data) 
@@ -17,26 +17,33 @@ def file_write(file, data):
 def ftp_download(down_path, loc_file_name) :
     print('Cannot found ' + loc_file_name + ' in local. Begin to download.')
     
-    ftp=ftplib.FTP(host='27.96.134.108')
-    ftp.login()
+    try:
+        ftp=ftplib.FTP(host='27.96.134.108')
+        ftp.login()
 
-    data = []
-    #ftp.cwd("./")
-    ftp.dir(data.append)
-    
-    fd = open(down_path + loc_file_name,'wb')
-    size = ftp.size(loc_file_name)
-    pbar=tqdm(total=size)
-    
-    bufsize=1024
-    def bar(data):
-        fd.write(data)
-        pbar.update(len(data))
+        data = []
+        #ftp.cwd("./")
+        ftp.dir(data.append)
+        
+        fd = open(down_path + loc_file_name,'wb')
+        size = ftp.size(loc_file_name)
+        pbar=tqdm(total=size)
+        
+        bufsize=1024
+        def bar(data):
+            fd.write(data)
+            pbar.update(len(data))
 
-    ftp.retrbinary("RETR " + loc_file_name, bar, bufsize)
+        ftp.retrbinary("RETR " + loc_file_name, bar, bufsize)
 
-    pbar.close()
-    fd.close()
+        pbar.close()
+        fd.close()
+        
+    except Exception as e:
+        os.remove(down_path + loc_file_name)
+        print("Failed to download dynamic library from OneX FTP Server. Please contact OneX Team.")
+        print("Error : " + str(e))
+        exit()
 
 if platform.system() == 'Linux' :               # Linux
     base_path = base_path + '/OneXAPI_libs'
