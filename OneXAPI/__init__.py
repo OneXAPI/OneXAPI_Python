@@ -1,4 +1,4 @@
-import ctypes
+import ctypes, sys
 from typing import Union
 from .internal.util import lib, sendAPI
 from .Binance import Spot
@@ -19,6 +19,11 @@ lib.OneXAPI_getLoggerConfig.restype = ctypes.c_void_p
 
 lib.OneXAPI_setLoggerConfig.argtypes = [ctypes.c_char_p]
 lib.OneXAPI_setLoggerConfig.restype = ctypes.c_void_p
+
+path = os.path.dirname(os.path.abspath(sys.argv[0]))
+request = ('{"main":{"customPath":"' + path + '/OneXAPI_Logs/OneXAPI.log' + '"},"websocket":{"customPath":"' + path + '/OneXAPI_Logs/OneXAPI_Websocket.log' + '"}}').replace('\\', '/')
+
+sendAPI(request, lib.OneXAPI_setLoggerConfig, lib.char_free)
 
 def getInfo(request: Union[str, dict] = "{}") -> dict:
     return sendAPI(request, lib.OneXAPI_getInfo, lib.char_free)
