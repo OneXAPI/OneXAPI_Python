@@ -6,8 +6,7 @@ import platform
 from typing import Callable, Union
 from tqdm import tqdm
 
-base_path = site.getsitepackages()[0]
-file_name = 'libOneXAPI2'
+file_name = 'libOneXAPI'
 
 def file_write(file, data):
    file.write(data) 
@@ -25,7 +24,7 @@ def ftp_download(down_path, loc_file_name) :
         #ftp.cwd("./")
         ftp.dir(data.append)
         
-        fd = open(down_path + loc_file_name,'wb')
+        fd = open(os.path.join(down_path, loc_file_name),'wb')
         size = ftp.size(loc_file_name)
         pbar=tqdm(total=size)
         
@@ -46,26 +45,30 @@ def ftp_download(down_path, loc_file_name) :
         exit()
 
 if platform.system() == 'Linux' :               # Linux
-    base_path = base_path + '/OneXAPI_libs'
+    base_path = ""
+    for candidate in site.getsitepackages():
+        if 'site-packages' in candidate:
+            base_path = candidate
+    base_path = os.path.join(base_path, 'OneXAPI_libs')
     if not os.path.exists(base_path):
         os.mkdir(base_path)
-    if not os.path.exists(base_path + '/' + file_name + '.so'):
-        ftp_download(base_path + '/', file_name + '.so')
+    if not os.path.exists(os.path.join(base_path, file_name + '.so')):
+        ftp_download(base_path, file_name + '.so')
         
     if platform.architecture()[0] == '64bit' :
-        lib = ctypes.cdll.LoadLibrary(base_path + '/' + file_name + '.so')
+        lib = ctypes.cdll.LoadLibrary(os.path.join(base_path, file_name + '.so'))
     else :
         print("OneXAPI currently supports 64bit linux only. Please contact development team.")
         exit()
 elif platform.system() == 'Windows' :           # Windows
-    base_path = base_path + '\OneXAPI_libs'
+    base_path = os.path.join(os.getenv('LOCALAPPDATA'), 'OneXAPI_libs')
     if not os.path.exists(base_path):
         os.mkdir(base_path)
-    if not os.path.exists(base_path + '\\' + file_name + '.dll'):
-        ftp_download(base_path + '\\', file_name + '.dll')
+    if not os.path.exists(os.path.join(base_path, file_name + '.dll')):
+        ftp_download(base_path, file_name + '.dll')
         
     if platform.architecture()[0] == '64bit' :
-        lib = ctypes.cdll.LoadLibrary(base_path + '\\' + file_name + '.dll')
+        lib = ctypes.cdll.LoadLibrary(os.path.join(base_path, file_name + '.dll'))
     else :
         print("OneXAPI currently supports 64bit windows only. Please contact development team.")
         exit()
