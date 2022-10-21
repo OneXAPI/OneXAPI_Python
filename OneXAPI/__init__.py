@@ -1,4 +1,4 @@
-import ctypes, sys
+import ctypes, sys, os
 from typing import Union
 from .internal.util import lib, sendAPI
 from .Binance import Spot
