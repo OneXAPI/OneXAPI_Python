@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='OneXAPI',
-    version='0.0.0',
+    version='0.0.1',
     description='For Beta Test',
     author='Libera Inc.',
     author_email='ceo@libera.com',
