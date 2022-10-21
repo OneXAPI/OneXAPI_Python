@@ -21,7 +21,6 @@ def ftp_download(down_path, loc_file_name) :
         ftp.login()
 
         data = []
-        #ftp.cwd("./")
         ftp.dir(data.append)
         
         fd = open(os.path.join(down_path, loc_file_name),'wb')
@@ -49,6 +48,14 @@ if platform.system() == 'Linux' :               # Linux
     for candidate in site.getsitepackages():
         if 'site-packages' in candidate:
             base_path = candidate
+            break
+        elif 'dist-packages' in candidate:
+            base_path = candidate
+            break
+    if base_path == "Can't find package folder. Please contact OneX team":
+        print("")
+        exit()
+        
     base_path = os.path.join(base_path, 'OneXAPI_libs')
     if not os.path.exists(base_path):
         os.mkdir(base_path)

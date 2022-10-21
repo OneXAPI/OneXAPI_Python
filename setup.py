@@ -17,6 +17,7 @@ setup(
               'OneXAPI.internal.instruments'
               ],  # would be the same as name
     include_package_data=True,
-    install_requires=[], #external packages acting as dependencies
+    install_requires=['tqdm==4.64.1'], #external packages acting as dependencies
     scripts=[],
+    python_requires='>=3.6',
 )
