@@ -3,10 +3,11 @@ import ftplib
 import os
 import site
 import platform
+import pkg_resources
 from typing import Callable, Union
 from tqdm import tqdm
 
-file_name = 'libOneXAPI'
+file_name = 'libOneXAPI.' + pkg_resources.get_distribution('OneXAPI').version
 
 def file_write(file, data):
    file.write(data) 
@@ -38,7 +39,7 @@ def ftp_download(down_path, loc_file_name) :
         fd.close()
         
     except Exception as e:
-        os.remove(down_path + loc_file_name)
+        os.remove(os.path.join(down_path, loc_file_name))
         print("Failed to download dynamic library from OneX FTP Server. Please contact OneX Team.")
         print("Error : " + str(e))
         exit()
