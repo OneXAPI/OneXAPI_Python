@@ -39,7 +39,8 @@ def ftp_download(down_path, loc_file_name) :
         pbar.close()
         
     except Exception as e:
-        os.remove(os.path.join(down_path, loc_file_name))
+        if os.path.exists(os.path.join(down_path, loc_file_name)):
+            os.remove(os.path.join(down_path, loc_file_name))
         print("Failed to download dynamic library from OneX FTP Server. Please contact OneX Team.")
         print("Error : " + str(e))
         exit()
