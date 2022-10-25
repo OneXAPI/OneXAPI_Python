@@ -24,19 +24,19 @@ def ftp_download(down_path, loc_file_name) :
         data = []
         ftp.dir(data.append)
         
-        fd = open(os.path.join(down_path, loc_file_name),'wb')
         size = ftp.size(loc_file_name)
         pbar=tqdm(total=size)
         
         bufsize=1024
         def bar(data):
+            fd = open(os.path.join(down_path, loc_file_name),'wb')
             fd.write(data)
+            fd.close()
             pbar.update(len(data))
 
         ftp.retrbinary("RETR " + loc_file_name, bar, bufsize)
 
         pbar.close()
-        fd.close()
         
     except Exception as e:
         os.remove(os.path.join(down_path, loc_file_name))
