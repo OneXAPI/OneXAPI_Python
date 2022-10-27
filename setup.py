@@ -22,9 +22,6 @@ setup(
     project_urls=project_urls,
     packages=['OneXAPI',
               'OneXAPI.Upbit',
-              'OneXAPI.Upbit.Indonesia',
-              'OneXAPI.Upbit.Singapore',
-              'OneXAPI.Upbit.Thailand',
               'OneXAPI.Binance',
               'OneXAPI.internal',
               'OneXAPI.internal.instruments'
