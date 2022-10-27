@@ -384,7 +384,7 @@ class Testing(unittest.TestCase):
 
     def test_withdraw_2(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        client = OneXAPI.Upbit.Spot()
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
         nowTime = time.localtime(time.time())
@@ -402,7 +402,7 @@ class Testing(unittest.TestCase):
 
     def test_withdraw_3(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        client = OneXAPI.Upbit.Spot()
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
         nowTime = time.localtime(time.time())
@@ -871,7 +871,7 @@ class Testing(unittest.TestCase):
 
     def test_orderLimitBuy_2(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        client = OneXAPI.Upbit.Spot()
 
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
@@ -888,7 +888,7 @@ class Testing(unittest.TestCase):
 
     def test_orderLimitBuy_3(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        client = OneXAPI.Upbit.Spot()
 
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
@@ -914,7 +914,7 @@ class Testing(unittest.TestCase):
 
     def test_orderLimitSell_2(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        client = OneXAPI.Upbit.Spot()
 
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
@@ -931,7 +931,7 @@ class Testing(unittest.TestCase):
 
     def test_orderLimitSell_3(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        client = OneXAPI.Upbit.Spot()
 
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
@@ -957,7 +957,7 @@ class Testing(unittest.TestCase):
 
     def test_orderMarketBuy_2(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        client = OneXAPI.Upbit.Spot()
 
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
@@ -974,7 +974,7 @@ class Testing(unittest.TestCase):
 
     def test_orderMarketBuy_3(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        client = OneXAPI.Upbit.Spot()
 
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
@@ -1000,7 +1000,7 @@ class Testing(unittest.TestCase):
 
     def test_orderMarketSell_2(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        client = OneXAPI.Upbit.Spot()
 
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
@@ -1017,7 +1017,7 @@ class Testing(unittest.TestCase):
 
     def test_orderMarketSell_3(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        client = OneXAPI.Upbit.Spot()
 
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
@@ -1043,7 +1043,7 @@ class Testing(unittest.TestCase):
 
     def test_orderCancel_2(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        client = OneXAPI.Upbit.Spot()
 
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
@@ -1060,7 +1060,7 @@ class Testing(unittest.TestCase):
 
     def test_orderCancel_3(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
+        client = OneXAPI.Upbit.Spot()
 
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
