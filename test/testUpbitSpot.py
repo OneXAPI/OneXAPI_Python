@@ -382,7 +382,7 @@ class upbitSpotTest(unittest.TestCase):
 
     def test_withdraw_2(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot()
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
         nowTime = time.localtime(time.time())
@@ -400,7 +400,7 @@ class upbitSpotTest(unittest.TestCase):
 
     def test_withdraw_3(self):
         time.sleep(1)
-        client = OneXAPI.Upbit.Spot()
+        client = OneXAPI.Upbit.Spot('{"accessKey":"' + UPBIT_ACCESS_KEY + '", "secretKey":"' + UPBIT_SECRET_KEY + '"}')
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
         nowTime = time.localtime(time.time())

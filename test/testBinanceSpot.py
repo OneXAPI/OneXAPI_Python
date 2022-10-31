@@ -385,7 +385,7 @@ class binanceSpotTest(unittest.TestCase):
 
     def test_withdraw_2(self):
         time.sleep(1)
-        client = OneXAPI.Binance.Spot()
+        client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
         nowTime = time.localtime(time.time())
@@ -403,7 +403,7 @@ class binanceSpotTest(unittest.TestCase):
 
     def test_withdraw_3(self):
         time.sleep(1)
-        client = OneXAPI.Binance.Spot()
+        client = OneXAPI.Binance.Spot('{"accessKey":"' + BINANCE_ACCESS_KEY + '", "secretKey":"' + BINANCE_SECRET_KEY + '"}')
         OneXAPI.setLoggerConfig('{"main":{"outputMethod":"file","logLevel":"info"}}')
 
         nowTime = time.localtime(time.time())
