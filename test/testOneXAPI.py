@@ -105,6 +105,9 @@ class oneXAPITest(unittest.TestCase):
 
         res = OneXAPI.setLoggerConfig('{"main":{"outputMethod": "file", "logLevel": "info"},"websocket":{"outputMethod": "terminal", "logLevel": "error"}}')
         answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"main":{"outputMethod":"file","logLevel":"info"},"websocket":{"outputMethod":"terminal","logLevel":"error"}}}')
+        OneXAPI.setLoggerConfig('{"main":{"outputMethod": "terminal", "logLevel": "off"},"websocket":{"outputMethod": "terminal", "logLevel": "off"}}')
+        self.assertEqual(res, answer)
+
 
 if __name__ == "__main__":
     unittest.main()
