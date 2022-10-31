@@ -4,9 +4,6 @@ from .internal.util import lib, sendAPI
 from .Binance import Spot
 from .Binance import Futures
 from .Upbit import Spot
-from .Upbit.Singapore import Spot
-from .Upbit.Indonesia import Spot
-from .Upbit.Thailand import Spot
 
 lib.char_free.argtypes = [ctypes.c_void_p]
 lib.char_free.restype = None

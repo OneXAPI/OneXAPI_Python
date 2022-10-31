@@ -12,7 +12,7 @@ project_urls = {
 
 setup(
     name='OneXAPI',
-    version='0.0.1',
+    version='0.0.2',
     description='For Beta Test',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -22,9 +22,6 @@ setup(
     project_urls=project_urls,
     packages=['OneXAPI',
               'OneXAPI.Upbit',
-              'OneXAPI.Upbit.Indonesia',
-              'OneXAPI.Upbit.Singapore',
-              'OneXAPI.Upbit.Thailand',
               'OneXAPI.Binance',
               'OneXAPI.internal',
               'OneXAPI.internal.instruments'
