@@ -2033,7 +2033,7 @@ class binanceFuturesTest(unittest.TestCase):
         self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(len(res['data']), 2 )
 
-        self.assertGreater(len(res['data']['subscribed']), 50)
+        self.assertGreater(len(res['data']['subscribed']), 25)
         self.assertEqual(type(res['data']['subscribed']), type([]))
         self.assertEqual(type(res['data']['subscribeFailed']), type([]))
 
@@ -2197,7 +2197,7 @@ class binanceFuturesTest(unittest.TestCase):
 
         res = client.subscribeMarketInfo(payload)
 
-        self.assertGreater(len(res['data']['subscribed']), 50)
+        self.assertGreater(len(res['data']['subscribed']), 25)
 
         res = client.unsubscribeMarketInfo(payload)
 
@@ -2342,7 +2342,7 @@ class binanceFuturesTest(unittest.TestCase):
         self.assertEqual(res['requestedApiCount'], 0)
         self.assertEqual(len(res['data']), 2 )
 
-        self.assertGreater(len(res['data']['subscribed']), 50)
+        self.assertGreater(len(res['data']['subscribed']), 25)
         self.assertEqual(type(res['data']['subscribed']), type([]))
         self.assertEqual(type(res['data']['subscribeFailed']), type([]))
 
@@ -2506,7 +2506,7 @@ class binanceFuturesTest(unittest.TestCase):
 
         res = client.subscribeTicker(payload)
 
-        self.assertGreater(len(res['data']['subscribed']), 50)
+        self.assertGreater(len(res['data']['subscribed']), 25)
 
         res = client.unsubscribeTicker(payload)
 
@@ -2651,7 +2651,7 @@ class binanceFuturesTest(unittest.TestCase):
         self.assertEqual(res['requestedApiCount'], len(baseCurrencys))
         self.assertEqual(len(res['data']), 2 )
 
-        self.assertGreater(len(res['data']['subscribed']), 50)
+        self.assertGreater(len(res['data']['subscribed']), 25)
         self.assertEqual(type(res['data']['subscribed']), type([]))
         self.assertEqual(type(res['data']['subscribeFailed']), type([]))
 
@@ -2815,7 +2815,7 @@ class binanceFuturesTest(unittest.TestCase):
 
         res = client.subscribeOrderbook(payload)
 
-        self.assertGreater(len(res['data']['subscribed']), 50)
+        self.assertGreater(len(res['data']['subscribed']), 25)
 
         res = client.unsubscribeOrderbook(payload)
 
