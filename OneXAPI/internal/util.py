@@ -28,15 +28,14 @@ def ftp_download(down_path, loc_file_name) :
         pbar=tqdm(total=size)
         
         bufsize=1024
-        def bar(data):
-            fd = open(os.path.join(down_path, loc_file_name),'wb')
-            fd.write(data)
-            fd.close()
-            pbar.update(len(data))
+        with open(os.path.join(down_path, loc_file_name),'wb') as fd:
+            def bar(data):
+                fd.write(data)
+                pbar.update(len(data))
 
-        ftp.retrbinary("RETR " + loc_file_name, bar, bufsize)
+            ftp.retrbinary("RETR " + loc_file_name, bar, bufsize)
 
-        pbar.close()
+            pbar.close()
         
     except Exception as e:
         if os.path.exists(os.path.join(down_path, loc_file_name)):
