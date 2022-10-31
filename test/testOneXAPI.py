@@ -1,12 +1,9 @@
+import OneXAPI
 import unittest
 import sys, os, time
 import json
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
-import OneXAPI
-
-
-class Testing(unittest.TestCase):
+class oneXAPITest(unittest.TestCase):
     def test_OneXAPI_getInfo_1(self):
 
         res = OneXAPI.getInfo()

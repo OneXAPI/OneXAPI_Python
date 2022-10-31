@@ -1,12 +1,10 @@
+import OneXAPI
 import unittest
 import sys, os, time
 from datetime import datetime, timedelta
 import json
 import util
 from exchangeKeys import UPBIT_ACCESS_KEY, UPBIT_SECRET_KEY
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
-import OneXAPI
 
 hasMap = """
 {
@@ -52,7 +50,7 @@ hasMap = """
 }
 """
 
-class Testing(unittest.TestCase):
+class upbitSpotTest(unittest.TestCase):
     def test_UpbitSpot_Object_1(self):
         for i in range(0,5):
             client = OneXAPI.Upbit.Spot()

@@ -1,3 +1,4 @@
+import OneXAPI
 import unittest
 import sys, os, time
 from datetime import datetime, timedelta
@@ -5,9 +6,6 @@ from dateutil.relativedelta import relativedelta
 import json
 import util
 from exchangeKeys import BINANCE_ACCESS_KEY, BINANCE_SECRET_KEY
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
-import OneXAPI
 
 hasMap = """
 {
@@ -53,7 +51,7 @@ hasMap = """
 }
 """
 
-class Testing(unittest.TestCase):
+class binanceFuturesTest(unittest.TestCase):
     def test_BinanceFutures_Object_1(self):
         for i in range(0,5):
             client = OneXAPI.Binance.Futures()
