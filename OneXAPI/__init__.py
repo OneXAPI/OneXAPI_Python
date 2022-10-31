@@ -18,8 +18,8 @@ lib.OneXAPI_setLoggerConfig.argtypes = [ctypes.c_char_p]
 lib.OneXAPI_setLoggerConfig.restype = ctypes.c_void_p
 
 path = os.path.dirname(os.path.abspath(sys.argv[0]))
-restPath = os.path.join(path, 'OneXAPI_Logs/OneXAPI.log')
-websocketPath = os.path.join(path, 'OneXAPI_Logs/OneXAPI_Websocket.log')
+restPath = os.path.join(path, 'OneXAPI_Logs', 'OneXAPI.log')
+websocketPath = os.path.join(path, 'OneXAPI_Logs', 'OneXAPI_Websocket.log')
 
 request = ('{"main":{"customPath":"' + restPath + '"},"websocket":{"customPath":"' + websocketPath + '"}}')
 
