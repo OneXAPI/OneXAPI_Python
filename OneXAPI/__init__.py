@@ -21,7 +21,7 @@ path = os.path.dirname(os.path.abspath(sys.argv[0]))
 restPath = os.path.join(path, 'OneXAPI_Logs', 'OneXAPI.log')
 websocketPath = os.path.join(path, 'OneXAPI_Logs', 'OneXAPI_Websocket.log')
 
-request = ('{"main":{"customPath":"' + restPath + '"},"websocket":{"customPath":"' + websocketPath + '"}}')
+request = ('{"main":{"customPath":"' + restPath + '"},"websocket":{"customPath":"' + websocketPath + '"}}').replace('\\', '\\\\')
 
 sendAPI(request, lib.OneXAPI_setLoggerConfig, lib.char_free)
 
