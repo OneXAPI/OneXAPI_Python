@@ -12,7 +12,7 @@ project_urls = {
 
 setup(
     name='OneXAPI',
-    version='0.0.2',
+    version='0.1.0',
     description='For Beta Test',
     long_description=long_description,
     long_description_content_type='text/markdown',

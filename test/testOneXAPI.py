@@ -7,21 +7,21 @@ class oneXAPITest(unittest.TestCase):
     def test_OneXAPI_getInfo_1(self):
 
         res = OneXAPI.getInfo()
-        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"supportedExchanges":[{"exchange":"Binance","instrument":"Spot"},{"exchange":"Binance","instrument":"Futures"},{"exchange":"Upbit","instrument":"Spot"}],"onexapiVersion":"0.0.2"}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"supportedExchanges":[{"exchange":"Binance","instrument":"Spot"},{"exchange":"Binance","instrument":"Futures"},{"exchange":"Upbit","instrument":"Spot"}],"onexapiVersion":"0.1.0"}}')
 
         self.assertEqual(res, answer)
     
     def test_OneXAPI_getInfo_2(self):
 
         res = OneXAPI.getInfo('')
-        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"supportedExchanges":[{"exchange":"Binance","instrument":"Spot"},{"exchange":"Binance","instrument":"Futures"},{"exchange":"Upbit","instrument":"Spot"}],"onexapiVersion":"0.0.2"}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"supportedExchanges":[{"exchange":"Binance","instrument":"Spot"},{"exchange":"Binance","instrument":"Futures"},{"exchange":"Upbit","instrument":"Spot"}],"onexapiVersion":"0.1.0"}}')
 
         self.assertEqual(res, answer)
 
     def test_OneXAPI_getInfo_3(self):
 
         res = OneXAPI.getInfo('{}')
-        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"supportedExchanges":[{"exchange":"Binance","instrument":"Spot"},{"exchange":"Binance","instrument":"Futures"},{"exchange":"Upbit","instrument":"Spot"}],"onexapiVersion":"0.0.2"}}')
+        answer = json.loads('{"success":true,"requestedApiCount":0,"data":{"supportedExchanges":[{"exchange":"Binance","instrument":"Spot"},{"exchange":"Binance","instrument":"Futures"},{"exchange":"Upbit","instrument":"Spot"}],"onexapiVersion":"0.1.0"}}')
 
         self.assertEqual(res, answer)
 
