@@ -14,6 +14,7 @@ setup(
     name='OneXAPI',
     version='0.1.0',
     description='For Beta Test',
+    license='Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Libera Inc.',
