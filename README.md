@@ -54,5 +54,13 @@ print(OneXAPI.getInfo()) # Print all supported exchanges
 Read [CONTRIBUTION](https://github.com/OneXAPI/OneXAPI_Python/blob/master/CONTRIBUTION.md) for more details
 
 ---
+## License
+OneXAPI is open-sourced under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International during beta test. See the [LICENSE](https://github.com/OneXAPI/OneXAPI_Python/blob/master/LICENSE.md) file for details.
+
+All material, including the dymanic library files(.so, .dll), is made available under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International.  
+
+For a list of other open source components included in OneXAPI, see the file [3rd-party-licenses](https://github.com/OneXAPI/OneXAPI_Python/blob/master/3rd-party-licenses.md).  
+
+---
 ## Contact
 ceo@libera.or.kr
