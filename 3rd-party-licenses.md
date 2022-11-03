@@ -4,23 +4,89 @@
 
 ## License information
 
-### sample1
+### CURL
 
 | Name | Data |
 | --- | --- |
-| Project name / Source | sample1 |
-| Version | 0.1 |
-| URL | https://link1 |
-| License | CC0 1.0 Universal (CC0 1.0) Public Domain Dedication |
-| Copyright | Copyright (c) Author1 |
+| Project name / Source | curl |
+| Version | 7.58 |
+| URL | https://github.com/curl/curl |
+| License | [license link](https://github.com/curl/curl/blob/master/COPYING) |
+| Copyright | Copyright (c) 1996 - 2022, Daniel Stenberg, <daniel@haxx.se> |
 
 
-### sample2
+### ZLIB
 
 | Name | Data |
 | --- | --- |
-| Project name / Source | sample2 |
-| Version | 1.16.0 |
-| URL | https://link2 |
-| License | BSD 3 |
-| Copyright | Copyright (c) Author2 |
+| Project name / Source | zlib |
+| Version | 1.2.13 |
+| URL | https://github.com/madler/zlib |
+| License | [license link](https://github.com/madler/zlib/blob/master/LICENSE) |
+| Copyright | Copyright (c) 1995-2022 Jean-loup Gailly and Mark Adler |
+
+
+### OPENSSL
+
+| Name | Data |
+| --- | --- |
+| Project name / Source | openssl |
+| Version | 1.1.1 |
+| URL | https://github.com/openssl/openssl |
+| License | Apache License 2.0 |
+| Copyright | Copyright (c) 1998-2022 The OpenSSL Project |
+
+
+### JWT-CPP
+
+| Name | Data |
+| --- | --- |
+| Project name / Source | jwt-cpp |
+| Version | 0.6.0 |
+| URL | https://github.com/Thalhammer/jwt-cpp |
+| License | MIT License |
+| Copyright | Copyright (c) 2018 Dominik Thalhammer |
+
+
+### SPDLOG
+
+| Name | Data |
+| --- | --- |
+| Project name / Source | spdlog |
+| Version | 1.10.0 |
+| URL | https://github.com/gabime/spdlog |
+| License | MIT License |
+| Copyright | Copyright (c) 2016 Gabi Melman |
+
+
+### RAPIDJSON
+
+| Name | Data |
+| --- | --- |
+| Project name / Source | rapidjson |
+| Version | 1.1.0 |
+| URL | https://github.com/Tencent/rapidjson |
+| License | [license link](https://github.com/Tencent/rapidjson/blob/master/license.txt) |
+| Copyright | Copyright (c) 2015 THL A29 Limited, a Tencent company, and Milo Yip. |
+
+
+### BOOST
+
+| Name | Data |
+| --- | --- |
+| Project name / Source | boost |
+| Version | 1.78.0 |
+| URL | https://www.boost.org/ |
+| License | [license link](https://www.boost.org/users/license.html) |
+| Copyright | Copyright (c) Joe Coder 2004 - 2006 |
+
+
+### oneTBB
+
+| Name | Data |
+| --- | --- |
+| Project name / Source | openssl |
+| Version | oneTBB 2021.6.0 |
+| URL | https://github.com/oneapi-src/oneTBB |
+| License | Apache License 2.0 |
+| Copyright | Copyright (c) 2022, Intel Corporation |
